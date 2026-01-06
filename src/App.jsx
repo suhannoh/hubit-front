@@ -8,6 +8,8 @@ import Recruitment from './pages/recruitment/Recruitment'
 import NewRecriutment from './pages/recruitment/NewRecriutment'
 import ProtectedRoute from './layout/ProtectedRoute'
 import DetailRecruitment from './pages/recruitment/DetailRecruitment'
+import ListRecruitment from './pages/recruitment/ListRecruitment'
+import My from './pages/my/My'
 
 function App() {
 
@@ -19,10 +21,12 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/recruitment" element={<Recruitment />} />
+          <Route path="/recruitment/:category" element={<ListRecruitment />} />
           {/* 로그인 필요 영역 !  */}
           <Route element={<ProtectedRoute />} >
             <Route path="/recruitment/new" element={<NewRecriutment />} />
-            <Route path="/recruitment/:id" element={<DetailRecruitment />} />
+            <Route path="/recruitment/:category/:id" element={<DetailRecruitment />} />
+            <Route path="/my" element={<My />} />
           </Route>
         </Routes>
       </Layout>

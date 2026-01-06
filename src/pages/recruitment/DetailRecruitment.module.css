@@ -1,0 +1,240 @@
+.container {
+  display: flex;
+  max-width: 100%;
+  overflow: hidden;
+  padding: 4rem;
+  gap: 2rem;
+}
+.content {
+  flex: 1.5;
+  flex-direction: column;
+  background: var(--lightbg);
+  padding: 2rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.content h1 {
+  margin-bottom: 0.7rem;
+  background: var(--lightbg);
+}
+.form {
+  flex: 1;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 2rem;
+}
+.form__title {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--lightbg);
+}
+.form__title button {
+  width: max-content;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border);
+  background-color: var(--primary);
+  font-size: 14px;
+}
+.form h2 {
+  width: max-content;
+  padding-bottom: 0.7rem;
+  background: var(--lightbg);
+}
+.form label {
+  background: var(--lightbg);
+  opacity: 0.8;
+}
+.name {
+  display: flex;
+  flex-direction: column;
+  background: var(--lightbg);
+}
+.form__input {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  margin-bottom: 0.7rem;
+  padding-bottom: 0.7rem;
+  background: var(--lightbg);
+  border-bottom: 1px solid var(--border);
+}
+.form__input select {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.7rem 1rem;
+  font-size: 1rem;
+  background: var(--bg);
+  outline: none;
+  cursor: pointer;
+}
+.form__input .date {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: var(--lightbg);
+}
+.date__input {
+  display: flex;
+  gap: 1rem;
+  background: var(--lightbg);
+  align-items: center;
+}
+.form__input .date input {
+  cursor: pointer;
+}
+.form__input .date svg {
+  background: var(--lightbg);
+}
+.form__input input {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.7rem 1rem;
+  font-size: 1rem;
+  background: var(--bg);
+  outline: none;
+}
+.info {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  background: var(--lightbg);
+  margin-bottom: 0.7rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid var(--border);
+}
+.info p {
+  background: var(--lightbg);
+}
+.info .author {
+  font-weight: bold;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 1rem;
+  background: var(--lightbg);
+  margin-bottom: 0.7rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid var(--border);
+}
+.stack__list {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  background: var(--lightbg);
+}
+.stack__list p {
+  background: var(--primary);
+  color: var(--bg);
+  border-radius: 10px;
+  font-size: 13px;
+  padding: 0.3rem;
+}
+.project__info {
+  display: flex;
+  gap: 1rem;
+  background: var(--lightbg);
+  margin-bottom: 0.7rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+}
+.project__info svg {
+  background: var(--lightbg);
+}
+.project__info p {
+  background: var(--lightbg);
+}
+.project__info p:nth-child(1) {
+  font-weight: bold; 
+}
+.project__info p:nth-child(2) {
+  opacity: 0.8;
+  font-size: 14px;
+}
+.project__info__content {
+  gap: 1rem;
+  background: var(--lightbg);
+  align-items: center;
+  margin-left: 1rem;
+}
+.content__desc {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: var(--lightbg);
+  margin-bottom: 0.7rem;
+  padding-bottom: 0.7rem;
+}
+.content__desc p {
+  background: var(--lightbg);
+}
+.content__desc p:nth-child(1) {
+  font-weight: bold;
+}
+.form__submit {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--sub-primary);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.link {
+  position: relative;
+}
+.link svg {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  width: max-content;
+  border: none;
+  font-size: 14px;
+  color: var(--text)
+}
+.link svg:hover {
+  opacity: 0.6;
+}
+.link__list {
+  background: var(--lightbg);
+  display: flex;
+  flex-direction: column;
+}
+.link__item {
+  background: var(--lightbg);
+  color: var(--text);
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: pointer;
+  padding-bottom: 0.5rem;
+}
+.link__item:hover {
+  opacity: 0.6;
+}
+.position {
+  display: flex;
+  flex-direction: column;
+  background: var(--lightbg);
+  margin-bottom: 0.7rem;
+  padding-bottom: 0.7rem;
+}
+.text,
+.text label {
+  background: var(--lightbg);
+}

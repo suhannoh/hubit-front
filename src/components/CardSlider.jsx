@@ -40,7 +40,7 @@ export default function CardSlider({ items = [] }) {
           <SwiperSlide key={`${item.recruitmentId}`} style={{ width: 300}}>
             <article onClick={() => handleDetail(item)} className={styles.card}>
               <RecruitmentCard item={item} cardType={"new"}/>
-              <span className={styles.badge}>NEW</span>
+              <span className={styles.badge}>N</span>
             </article>
           </SwiperSlide>
         ))}

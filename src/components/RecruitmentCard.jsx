@@ -1,9 +1,10 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './RecruitmentCard.module.css'
 export default function RecruitmentCard({ item , cardType=""}) {
   
   const navigate = useNavigate();
-
+  // const { pathname } = useLocation();
+  // const url = pathname.split("/")[2];
   const stackColor = {
     primary : [
       "REACT" , "VUE" , "HTML" , "CSS" , "JAVASCRIPT" , "TYPESCRIPT" , "NODEJS"
@@ -20,7 +21,7 @@ export default function RecruitmentCard({ item , cardType=""}) {
 };
 
   const handleDetail = () => {
-    navigate(`/recruitment/${item.recruitmentId}`, { state : item });
+    navigate(`/recruitment/${item.category}/${item.recruitmentId}`, { state : item });
   }
 
   return (

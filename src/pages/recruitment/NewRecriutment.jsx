@@ -9,11 +9,10 @@ export default function NewRecriutment() {
   const [title, setTitle] = useState("");
   const today = new Date().toISOString().split("T")[0];
   const [startDate, setStartDate] = useState(today);
-  const [endDate, setEndDate] = useState("");
+  const [endDate, setEndDate] = useState(today);
   const [projectTitle, setProjectTitle] = useState("");
   const [projectDesc, setProjectDesc] = useState("");
   const [content , setContent] = useState("");
-
   const [stacks, setStacks] = useState([]);
   const stackList = [
     "REACT" , "VUE" , "JAVA" , "SPRING", "SPRING BOOT", "HTML" , "CSS"
@@ -21,22 +20,12 @@ export default function NewRecriutment() {
   ]
 
   const {user} = userStore();
-  const data = {
-      id : user.id,
-      author : user.name,
-      title : projectTitle,
-      desc : projectDesc,
-      stack : stacks,
-      startDate,
-      endDate
-    };
-  
   const navigate = useNavigate();
-
-
+  
   const handleClick = (stack) => {
     if(stacks.includes(stack)) {
       setStacks(stacks.filter((item) => item !== stack));
+      setCategory(getCategoryByStacks(stacks));
       return
     }
     setStacks([...stacks, stack]);
@@ -48,7 +37,23 @@ export default function NewRecriutment() {
     }
   },[startDate])
 
-  const handleSubmit = async () => {
+  const getCategoryByStacks = (stacks) => {
+    const front = ["REACT", "VUE", "HTML", "CSS", "JAVASCRIPT", "TYPESCRIPT"];
+    const back = ["JAVA", "SPRING", "SPRING BOOT", "PYTHON"];
+
+      const hasFront = stacks.some(item => front.includes(item));
+      const hasBack = stacks.some(item => back.includes(item));
+
+      if (hasFront && hasBack) return "fullstack";
+      if (hasFront) return "frontend";
+      if (hasBack) return "backend";
+      return "";
+      
+  };
+  const category = getCategoryByStacks(stacks);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
       await api.post('/recruitment' , {
         userId : user.id,
@@ -59,9 +64,10 @@ export default function NewRecriutment() {
         projectDesc : projectDesc,
         startDate : startDate,
         endDate : endDate,
-        stack : stacks
+        stack : stacks,
+        category
       });
-      
+
       alert("프로젝트 생성이 정상적으로 완료되었습니다.");
       navigate('/recruitment');
     } catch (e) {
@@ -69,6 +75,16 @@ export default function NewRecriutment() {
     }
   }
 
+  const previewData = {
+      id : user.RecruitmentId,
+      author : user.name,
+      projectTitle,
+      projectDesc,
+      stack : stacks,
+      startDate,
+      endDate
+    }; 
+  
   return (
     <div className={styles.container}>
       <h1> 프로젝트 생성 </h1>
@@ -81,6 +97,8 @@ export default function NewRecriutment() {
                 className={stacks.includes(stack) ? styles.active : ""}>{stack}</li>
             ))}
           </ul>
+          <label > 카테고리 </label>
+          <p className={styles.category}>{category}</p>
         </div>
         <div className={styles.title_box}>
           <div className={styles.title_box_value}>
@@ -118,7 +136,7 @@ export default function NewRecriutment() {
         </div>
           <div className={styles.preview}>
             <label> Preview </label>
-            <RecruitmentCard item={data}/>
+            <RecruitmentCard item={previewData}/>
             <button type='submit'> 생성 </button>
           </div>
       </form>

@@ -36,12 +36,24 @@
 }
 .stack_box {
   position: sticky;
-  top: 0;
+  top: 2rem;
   flex: 1;
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+.category {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.7rem 1rem;
+  font-size: 1rem;
+  background: var(--bg);
+  font-weight: bold;
 }
 .desc_box {
   flex: 2;
@@ -100,7 +112,7 @@
 }
 .preview {
   position: sticky;
-  top: 0;
+  top: 2rem;
   flex: 1;
   display: flex;
   flex-direction: column;

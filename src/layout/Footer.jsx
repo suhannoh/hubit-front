@@ -4,7 +4,7 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className={styles.copyright}>
             © 2026<span>HUB IT</span>
-            Designed & Developed by <strong> Suhan Noh. </strong> 
+            Designed & Developed by<strong>Suhan Noh. </strong> 
           </div>
             <div className={styles.contact_link}>
             <a href='https://github.com/suhannoh/hana' target='_blank' rel="noopener noreferrer">

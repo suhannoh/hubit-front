@@ -38,7 +38,7 @@ export default function Header() {
       : 
       <div className={styles.profile}>
         <div className={styles.menu}>
-          <Link>My</Link>
+          <Link to="/my">My</Link>
         </div>
         <div className={styles.user}>
           <p> {user.name} </p>
