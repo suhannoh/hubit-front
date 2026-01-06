@@ -2,6 +2,8 @@ import { useLocation } from 'react-router-dom';
 import styles from './DetailRecruitment.module.css'
 import { useState } from 'react';
 import userStore from '../../store/user';
+import { handleError } from '../../api/error';
+import { api } from '../../api/api';
 
 export default function DetailRecruitment() {
   const { state } = useLocation();
@@ -61,6 +63,26 @@ export default function DetailRecruitment() {
     }
   };
 
+  const handleGetMy = async () => {
+     if (!user?.id) return;
+    console.log(user.id);
+    try {
+      const { data } = await api.get("/my", {
+        params: {
+          userId: user.id
+        }
+      });
+      console.log(data);
+      setName(data.fullName);
+      setPosition(data.position);
+      setText(data.oneLine);
+      setLink(data.link);
+    } catch (e) {
+      // handleError(e);
+      console.log(e);
+    }
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.content}>
@@ -86,7 +108,7 @@ export default function DetailRecruitment() {
       <form className={styles.form} onSubmit={handleSubmit}>
         <div className={styles.form__title}>
           <h2>제출 폼 </h2>
-          <button>불러오기</button>
+          <button type='button' onClick={handleGetMy} className={styles.form__title__btn}>불러오기</button>
         </div>
         <div className={styles.form__input}>
           <div className={styles.name}>
@@ -105,7 +127,7 @@ export default function DetailRecruitment() {
           <div className={styles.position}>
           <label> 지원 포지션  </label>
           <select value={position} onChange={(e) => setPosition(e.target.value)}>
-            <option value="" selected={position === ""}>포지션을 선택해주세요</option>
+            <option value="">포지션을 선택해주세요</option>
             <option value="frontend">프론트엔드</option>
             <option value="backend">백엔드</option>
             <option value="fullstack">풀스택</option>

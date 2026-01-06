@@ -90,12 +90,15 @@ form {
 .signup {
   background: var(--lightbg);
   cursor: pointer;
-  opacity: 0.7;
+  opacity: 1;
   display: flex;
   justify-content: space-between;
 }
 .signup a {
   color: var(--primary);
-  font-weight: bold;
   text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.signup a:hover {
+  opacity: 0.6;
 }

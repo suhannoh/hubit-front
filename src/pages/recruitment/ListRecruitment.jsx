@@ -34,7 +34,6 @@ export default function ListRecruitment() {
 
   useEffect (() => {
       const read = async () => {
-        console.log(path);
         const allowed = ["frontend", "backend", "fullstack"];
         if (!allowed.includes(path)) return;
         try {

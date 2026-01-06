@@ -40,6 +40,12 @@
   background-color: var(--primary);
   font-size: 14px;
 }
+.form__title__btn {
+  display: flex;
+  gap: 1rem;
+  background: var(--lightbg);
+  cursor: pointer;
+}
 .form h2 {
   width: max-content;
   padding-bottom: 0.7rem;
