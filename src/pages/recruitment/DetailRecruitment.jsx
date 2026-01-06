@@ -71,6 +71,9 @@ export default function DetailRecruitment() {
           userId: user.id
         }
       });
+      if (!data) {
+        return alert("등록된 정보가 없습니다 , 마이페이지에서 등록 후 이용해주세요.");
+      }
       setName(data.fullName);
       setPosition(data.position);
       setText(data.oneLine);

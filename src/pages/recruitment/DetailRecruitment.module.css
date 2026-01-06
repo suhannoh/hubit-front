@@ -180,6 +180,7 @@
   background: var(--lightbg);
   margin-bottom: 0.7rem;
   padding-bottom: 0.7rem;
+  white-space: pre-line;
 }
 .content__desc p {
   background: var(--lightbg);
