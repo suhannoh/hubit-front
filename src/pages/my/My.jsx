@@ -22,6 +22,7 @@ export default function My() {
             userId : user.id
           }
         });
+        if (!data) return;
         setName(data.fullName);
         setPosition(data.position);
         setOneLine(data.oneLine);
