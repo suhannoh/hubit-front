@@ -65,14 +65,12 @@ export default function DetailRecruitment() {
 
   const handleGetMy = async () => {
      if (!user?.id) return;
-    console.log(user.id);
-    try {
+     try {
       const { data } = await api.get("/my", {
         params: {
           userId: user.id
         }
       });
-      console.log(data);
       setName(data.fullName);
       setPosition(data.position);
       setText(data.oneLine);
