@@ -3,6 +3,7 @@ import styles from './Header.module.css'
 import Theme from './Theme';
 import userStore from '../store/user';
 import { useEffect, useState } from 'react';
+
 export default function Header() {
   const {isLogin , user , logout} = userStore();
   const [state , setState] = useState("");
@@ -27,9 +28,9 @@ export default function Header() {
           <Link to="/"><h2>HUB IT</h2></Link>
         </div>
         <Link to="/recruitment" className={state === "recruitment" ? styles.active : ""}>프로젝트 구인</Link>
-        <Link to="#" className={state === "" ? styles.active : ""}>정보처리기사</Link>
-        <Link>커뮤니티</Link>
-        <Link>공지사항</Link>
+        <Link to="#" className={state === "정보처리기사" ? styles.active : styles.disable}>정보처리기사</Link>
+        <Link to="#" className={state === "커뮤니티" ? styles.active : styles.disable}>커뮤니티</Link>
+        <Link to="#" className={state === "공지사항" ? styles.active : styles.disable}>공지사항</Link>
       </nav>
       {!isLogin ? 
       <div className={styles.auth__menu}>

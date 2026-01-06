@@ -130,3 +130,8 @@
   background: var(--sub-primary);
   border-radius: 2px;
 }
+.disable {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import styles from './Home.module.css'
 export default function Home() {
+
   return (
     <div className={styles.container}>
       <article className={styles.hero}>
@@ -9,7 +10,7 @@ export default function Home() {
       </article>
       <div className={styles.menu}>
         <Link className={styles.link} to="/recruitment"> 프로젝트 찾으러 가기</Link>
-        <Link className={styles.link} to="/recruitment"> 정보처리기사 공부 </Link>
+        <Link className={styles.link} onClick={() => alert("준비중입니다")}> 정보처리기사 공부 </Link>
       </div>
     </div>
   )
