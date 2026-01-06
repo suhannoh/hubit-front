@@ -1,0 +1,132 @@
+.header {
+  padding: 0.7rem 0rem;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.logo h2 {
+  cursor: pointer;
+  color: var(--primary);
+  background: var(--bg);
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20px;
+}
+
+.header nav a {
+  font-weight: bold;
+  font-size: 0.9rem;
+  position: relative;
+}
+.header nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+.login {
+  background-color: #ffffff;
+  border: 1px solid var(--border);
+  padding: 0.3rem 0.8rem;
+  border-radius: 0.5rem;
+  color: #121212;
+  font-size: 14px;
+  letter-spacing: -0.02em;
+}
+.login:hover {
+  opacity: 0.9;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+.signup {
+  color: #121212;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background-color: var(--primary);
+  padding: 0.3rem 0.8rem;
+  border-radius: 0.5rem;
+  font-size: 14px;
+  letter-spacing: -0.02em;
+}
+.signup:hover {
+  opacity: 0.9;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+.profile a {
+  font-size: 0.8rem;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  padding: 0.3rem 1rem;
+  border-radius: 0.5rem;
+}
+.profile a:hover {
+  opacity: 0.9;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+.profile p {
+  font-weight: bold;
+}
+.user {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  
+}
+.auth__menu {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.theme {
+  position: fixed;
+  top: 8px;
+  right: 16px;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border);
+  background-color: #ffffff;
+  color: var(--primary);
+  font-size: 14px;
+  z-index: 100;
+}
+.theme:hover {
+  opacity: 0.9;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+.logout__menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+.logout__menu p{
+  font-size: 12px;
+}
+.logout {
+  border-radius: 0.5rem;
+  color: var(--primary);
+  font-size: 14px;
+  padding-top: 2px;
+}
+.active::after {
+  content: " ";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -4px;
+  width: 110%;
+  height: 2px;
+  background: var(--sub-primary);
+  border-radius: 2px;
+}

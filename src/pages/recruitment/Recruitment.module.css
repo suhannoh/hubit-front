@@ -1,0 +1,67 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  max-width: 100%;
+  overflow: hidden;
+  padding: 4rem;
+  gap: 4rem;
+}
+.hero {
+  margin-bottom: 2rem;
+}
+.hero span{
+  opacity: 0.7;
+}
+.hero p {
+  font-size: 1.2rem;
+}
+
+.hot_recruitment {
+  width: 100%; 
+}
+
+.recruitment_table {
+  width: 100%;
+}
+.link {
+  color : var(--sub-primary);
+  text-decoration: underline;
+  text-underline-offset: 5px; 
+  text-align: right;
+  padding-left: 10px;
+}
+.link:hover {
+  opacity: 0.7 !important;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+}
+.grid__small {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, max-content));
+  gap: 1rem;
+}
+.pagination {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+.pagination h2 {
+  width: max-content;
+  font-size: 1.2rem;
+  background: var(--bg);
+}
+.pagination button {
+  width: max-content;
+  font-size: 1rem;
+  cursor: pointer;
+  opacity: 0.7;
+  border: none;
+}
+.pagination button:hover {
+  opacity: 1;
+}
