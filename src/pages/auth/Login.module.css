@@ -102,3 +102,44 @@ form {
 .signup a:hover {
   opacity: 0.6;
 }
+
+
+@media (max-width: 1250px) {
+  .form {
+    padding: 0 1rem;
+  }
+  .text {
+    min-width: 500px;
+    width: 100%;
+    padding: 0 1rem;
+  }
+  .text h1 {
+    font-size: 2.5rem;
+  }
+  .text p {
+    font-size: 1.2rem;
+  }
+}
+@media (max-width: 1024px) {
+  .container {
+    flex-direction: column-reverse;
+    gap: 5rem;
+  }
+  .text {
+    min-width: 500px;
+    padding: 0 1rem;
+    flex: 0;
+  }
+  .form {
+    background: var(--bg);
+    padding: 0 1rem;
+    flex: 0;
+  }
+  .form h2,
+  .form label,
+  .form div,
+  .form input,
+  .form * {
+    background: var(--bg);
+  }
+}
