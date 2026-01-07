@@ -10,6 +10,7 @@ export default function My() {
   const [oneLine , setOneLine] = useState("");
   const [link , setLink] = useState("");
   const [contact , setContact] = useState("");
+  const [apps , setApps] = useState([]);
   const splitDate = (date) => {
     return date.split("T")[0];
   }
@@ -22,7 +23,9 @@ export default function My() {
             userId : user.id
           }
         });
+        console.log(data.apps)
         if (!data) return;
+        setApps(data.apps)
         setName(data.fullName);
         setPosition(data.position);
         setOneLine(data.oneLine);
@@ -51,6 +54,11 @@ export default function My() {
     } catch (e) {
       handleError(e);
     }
+  }
+  const getStatus = (status) => {
+    if (status === "ACCEPT") return "승인"
+    if (status === "REJECT") return "거절"
+    if (status === "WAIT") return "대기중"
   }
   return (
     <div className={styles.container}>
@@ -90,8 +98,15 @@ export default function My() {
         </section>
         <section className={styles.help}>
           <h2>지원 / 진행 현황</h2>
-          <p>어떤 프로젝트 title </p>
-          <p>기간 </p>
+          {apps.map((app,idx) => (
+            <div key={idx} className={styles.app}>
+              <h3>{app.recruitmentTitle}</h3>
+              <div>
+                <p>{getStatus(app.status)}</p>
+                <span>{splitDate(app.createdAt)}</span>
+              </div>
+             </div> 
+          ))}
         </section>
       </div>
      <form className={styles.profile} onSubmit={handleSubmit}>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import RecruitmentCard from '../../components/RecruitmentCard'
 import styles from './NewRecriutment.module.css'
 import userStore from '../../store/user';
@@ -25,17 +25,31 @@ export default function NewRecriutment() {
   const handleClick = (stack) => {
     if(stacks.includes(stack)) {
       setStacks(stacks.filter((item) => item !== stack));
-      setCategory(getCategoryByStacks(stacks));
       return
     }
-    setStacks([...stacks, stack]);
+    else {
+      setStacks([...stacks, stack]);
+    }
   }
 
-  useEffect(() => {
-    if(endDate < startDate) {
-      setEndDate(startDate);
-    }
-  },[startDate])
+  const onChangeStartDate = (e) => {
+  const nextStart = e.target.value;
+  setStartDate(nextStart);
+
+  // start가 end보다 뒤면 end도 같이 당김
+  if (endDate < nextStart) setEndDate(nextStart);
+};
+
+const onChangeEndDate = (e) => {
+  const nextEnd = e.target.value;
+
+  // end가 start보다 앞이면 start로 보정(또는 return 처리)
+  if (nextEnd < startDate) {
+    setEndDate(startDate);
+    return;
+  }
+  setEndDate(nextEnd);
+};
 
   const getCategoryByStacks = (stacks) => {
     const front = ["REACT", "VUE", "HTML", "CSS", "JAVASCRIPT", "TYPESCRIPT"];
@@ -110,12 +124,12 @@ export default function NewRecriutment() {
             <div>
               <label>시작 기간 </label>
               <input type="date" required
-                value={startDate} onChange={(e) => setStartDate(e.target.value)} min={today} />
+                value={startDate} onChange={onChangeStartDate} min={today} />
             </div>
             <div>
               <label>종료 기간 </label>
               <input type="date" required
-                value={endDate} onChange={(e) => setEndDate(e.target.value)} min={startDate}/>
+                value={endDate} onChange={onChangeEndDate} min={startDate}/>
             </div>
           </div>
           <div className={styles.title_box_value}>
