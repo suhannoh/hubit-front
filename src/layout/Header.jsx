@@ -40,12 +40,11 @@ export default function Header() {
       </div>
       : 
       <div className={styles.profile}>
-        <div >
+        {/* <div >
           <Link to="/my">My</Link>
-        </div>
+        </div> */}
         <div className={styles.user}>
-          <p> {user.name} </p>
-          <div> 😗 </div>   
+          <Link to="/my"> {user.name}</Link>
         </div>
         <div className={styles.logout__menu} onClick={handleLogout}>
             <svg xmlns="http://www.w3.org/2000/svg" 

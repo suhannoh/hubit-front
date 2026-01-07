@@ -37,7 +37,6 @@ export default function Recruitment() {
               <Link 
               to={"/recruitment/new"} 
               className={styles.link}
-                    // onClick={user ? "" : () => alert("로그인이 필요합니다")}
                     > 프로젝트 만들기</Link></p>
           </div>
           <div className={styles.grid}>

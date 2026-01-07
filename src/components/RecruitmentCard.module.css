@@ -62,7 +62,7 @@
 .desc {
   font-size: 0.9rem;
   background: var(--lightbg);
-  padding: 1rem;
+  padding-top: 1rem;
 }
 .stack_list {
   display: flex;

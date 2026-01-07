@@ -9,10 +9,6 @@ import RecruitmentCard from "./RecruitmentCard";
 import styles from "./CardSlider.module.css";
 export default function CardSlider({ items = [] }) {
   
-  const handleDetail = ( item ) => {
-    // alert( JSON.stringify(item));
-  }
-
   return (
     <div style={{ width: "100%", overflow: "hidden" }}>
       <Swiper
@@ -36,9 +32,9 @@ export default function CardSlider({ items = [] }) {
           disableOnInteraction: false,
         }}
       >
-        {items.map((item, index) => (
+        {items.map((item) => (
           <SwiperSlide key={`${item.recruitmentId}`} style={{ width: 300}}>
-            <article onClick={() => handleDetail(item)} className={styles.card}>
+            <article className={styles.card}>
               <RecruitmentCard item={item} cardType={"new"}/>
               <span className={styles.badge}>N</span>
             </article>
