@@ -129,8 +129,10 @@ form {
     min-width: 500px;
     padding: 0 1rem;
     flex: 0;
+    box-shadow: none;
   }
   .form {
+    box-shadow: none;
     background: var(--bg);
     padding: 0 1rem;
     flex: 0;

@@ -367,3 +367,15 @@
   color: red;
   background: var(--lightbg);
 }
+
+@media (max-width: 1024px) {
+  .container {
+    flex-direction: column;
+  }
+  .content {
+    flex: 1;
+  }
+  .form {
+    flex: 1;
+  }
+}

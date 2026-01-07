@@ -99,6 +99,7 @@ form {
   font-size: 1.5rem;
   color: var(--primary);
 }
+
 @media (max-width: 1250px) {
   .form {
     padding: 0 1rem;
@@ -119,18 +120,22 @@ form {
   .container {
     flex-direction: column-reverse;
     gap: 5rem;
+    background: var(--bg);
   }
   .text {
     min-width: 500px;
     padding: 0 1rem;
     flex: 0;
-  }
-  .form {
     box-shadow: none;
     background: var(--bg);
+  }
+  .form {
+    background: var(--bg);
+    box-shadow: none;
     border: none;
     padding: 0 1rem;
     flex: 0;
+    box-shadow: none;
   }
   .form h2,
   .form label,
