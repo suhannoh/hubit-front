@@ -12,7 +12,10 @@ export default function SignUp() {
     const isPasswordValid = password.length >= 8;
     const buttonDisabledSize = name.length > 0 && email.length > 0 && isPasswordValid;
 
+    const [isDisabled , setIsDisabled] = useState(true);
+
     const handleSubmit = async (e) => {
+      setIsDisabled(false);
       e.preventDefault();
       const user = {
         name,
@@ -25,6 +28,8 @@ export default function SignUp() {
         navigate('/login');
       } catch (e) {
         handleError(e);
+      } finally {
+        setIsDisabled(true);
       }
     }
   return (
@@ -55,8 +60,9 @@ export default function SignUp() {
                 </svg> 8자 이상의 비밀번호를 사용해주세요 </li>
             </ul>
           </div> 
-          <button type='submit' disabled={!buttonDisabledSize} 
-                  style={{opacity : buttonDisabledSize ? 1 : 0.7}}>회원가입</button>
+          <button type='submit' disabled={!isDisabled} 
+                  style={{opacity : buttonDisabledSize ? 1 : 0.7}}
+                  >회원가입</button>
         </form>
       </div>
 
