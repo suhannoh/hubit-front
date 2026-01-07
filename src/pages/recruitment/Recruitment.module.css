@@ -20,7 +20,9 @@
 .hot_recruitment {
   width: 100%; 
 }
-
+.container svg {
+  background: var(--lightbg);
+}
 .recruitment_table {
   width: 100%;
 }
