@@ -2,8 +2,12 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import userStore from '../store/user';
 
 export default function ProtectedRoute() {
-  const { isLogin } = userStore();
+  const { isLogin, fetchCheck } = userStore();
   const location = useLocation();
+
+  if(!fetchCheck) {
+    return <div> 로그인 세션 확인중 . . .</div>
+  };
 
   if (!isLogin) {
     alert("로그인이 필요한 서비스입니다.");

@@ -3,6 +3,7 @@ import styles from './Header.module.css'
 import Theme from './Theme';
 import userStore from '../store/user';
 import { useEffect, useState } from 'react';
+import { api } from '../api/api';
 
 export default function Header() {
   const {isLogin , user , logout} = userStore();
@@ -16,6 +17,7 @@ export default function Header() {
   const handleLogout = async () => {
     const result = confirm("정말 로그아웃 하시겠습니까 ?");
     if(result) {
+      await api.get("/logout")
       logout();
       navigate('/');
     }

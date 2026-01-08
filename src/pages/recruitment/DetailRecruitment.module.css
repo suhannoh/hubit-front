@@ -283,12 +283,10 @@
   background: var(--lightbg);
 }
 .resc_list_wrap { 
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  display: flex;
   gap: 1rem;
   background: var(--lightbg);
 }
-
 .resc_list {
   display: flex;
   justify-content: space-between;
@@ -299,15 +297,22 @@
   background: var(--lightbg);
 }
 .resc_name {
+  flex: 1;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
   font-size: 1.2rem;
   font-weight: bold;
   background: var(--lightbg);
 }
+.resc_name:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
 .resc_name span {
   font-weight: normal;
-  font-size: 1rem;
+  font-size: 0.8rem;
   background: var(--lightbg);
 }
 .resc_name p {
@@ -365,6 +370,11 @@
 }
 .redpoint {
   color: red;
+  background: var(--lightbg);
+}
+.disable * {
+  pointer-events: none;
+  opacity: 0.8;
   background: var(--lightbg);
 }
 

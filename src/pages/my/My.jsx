@@ -26,11 +26,11 @@ export default function My() {
         console.log(data.apps)
         if (!data) return;
         setApps(data.apps)
-        setName(data.fullName);
-        setPosition(data.position);
-        setOneLine(data.oneLine);
-        setLink(data.link);
-        setContact(data.contact);
+        setName(data.fullName ?? "");
+        setPosition(data.position ?? "");
+        setOneLine(data.oneLine ?? "");
+        setLink(data.link ?? "");
+        setContact(data.contact ?? "");
       } catch (e) {
         handleError(e);
       }

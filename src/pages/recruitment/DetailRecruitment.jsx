@@ -11,6 +11,10 @@ export default function DetailRecruitment() {
   const { id } = useParams();  
   const today = new Date().toISOString().split("T")[0];
   const {user} = userStore();
+
+
+// 참여자 전용
+  const [isEdit, setIsEdit] = useState(false);
   const [name, setName] = useState('');
   const [startDate, setStartDate] = useState(today);
   const [endDate, setEndDate] = useState(today);
@@ -24,16 +28,17 @@ export default function DetailRecruitment() {
 
 //  작성자 전용 
   const [apps , setApps] = useState([]);
-  const [status , setStatus] = useState([]);
-  const handleStatusChange = (index, value) => {
-    setStatus(prev => {
-      const next = [...prev];
-      next[index] = value;     // ✅ 문자열로 저장
-      return next;
-    });
-  };
+  const [isDisable , setIsDisable] = useState(false);
 
-  useEffect(() => {
+  // 초기 데이터
+  useEffect(() => { // 신청자
+if (state.userId && user?.id && state.userId === user.id) {
+  getData();
+} else {
+  getData2();
+}
+},[id, state.userId, user?.id])
+// 작성자 정보 가져오기 
     const getData = async () => {
       try {
         const {data} = await api.get(`/recruitment-app`, {
@@ -42,17 +47,44 @@ export default function DetailRecruitment() {
             userId : user?.id
           }
         })
-        console.log(data);
-        setApps(data);
-        setStatus(data.map(d => d.status ?? "WAIT"));
+         // 1️⃣ 정렬 우선순위 정의
+        const order = { ACCEPT: 0, WAIT: 1, REJECT: 2 };
+
+        // 2️⃣ data를 정렬한 새로운 배열 생성
+        const sorted = [...data].sort((a, b) => {
+          return order[a.status ?? "WAIT"] - order[b.status ?? "WAIT"];
+        });
+        setApps(sorted);
+        // setStatus(data.map(d => d.status ?? "WAIT"));
       } catch (e) {
         handleError(e);
       } 
+}  
+  // 신청자 제출 시 정보 가져오기
+  const getData2 = async () => {
+    try {
+      const {data} = await api.get(`/recruitment-app/${id}`,{
+        params : {
+          userId : user?.id
+        }
+      });
+      if(!data) return;
+      console.log(data);
+      setIsEdit(true);
+      setName(data.fullName ?? "");
+      setPosition(data.position ?? "");
+      setText(data.oneLine ?? "");
+      setLinks(data.link?.split(",") ?? []);
+      setContacts(data.contact?.split(",") ?? []);
+      setStartDate(data.startDate ?? today);
+      setEndDate(data.endDate ?? today);
+      
+      setIsDisable(true);
+    } catch (e) {
+      handleError(e);
     }
-    if (state.userId && user?.id && state.userId === user.id) {
-    getData();
   }
-  },[id, state.userId, user?.id])
+  // 프로젝트 신청
   const handleSubmit = async (e) => {
     e.preventDefault();
    // Recruitment-App Request 
@@ -68,13 +100,13 @@ export default function DetailRecruitment() {
         link : links[0] ?? "",
         contact : contacts[0] ?? "",
       });
-
       alert("프로젝트 참여 신청이 완료되었습니다.");
+      await getData2();
     } catch (e) {
       handleError(e);
-    }
-     
+    } 
   }
+  // 스택컬러 
   const stackColor = {
     primary: [
       "REACT", "VUE", "HTML", "CSS", "JAVASCRIPT", "TYPESCRIPT", "NODEJS"
@@ -83,13 +115,13 @@ export default function DetailRecruitment() {
       "JAVA", "SPRING", "SPRING BOOT", "PYTHON"
     ]
   }
-
+  // 스택 컬러에서 비교
   const getStackColor = (s = "") => {
     if (stackColor.primary.includes(s)) return "var(--primary)";
     if (stackColor.subPrimary.includes(s)) return "var(--sub-primary)";
     return "var(--stack-default)"; // 없으면 기본색
   };
-
+  // 신청 폼 링크 유효성 검사 및 추가 
   const handleAdd = (e) => {
     e.preventDefault();
     const v = link.trim();
@@ -109,12 +141,15 @@ export default function DetailRecruitment() {
     setLinks((prev) => [...prev, v]);
     setLink("");
   }
+  // 신청 폼 링크 삭제
   const handleDeleteLink = (index) => {
     setLinks((prev) => prev.filter((_, i) => i !== index));
   }
+  // 신청 폼 contact 삭제
   const handleDeleteContact = (index) => {
     setContacts((prev) => prev.filter((_, i) => i !== index));
   }
+  // 신청 폼 contact 유효성 검사 및 추가 
   const handleContact = (e) => {
     e.preventDefault();
     const v = contact.trim();
@@ -130,7 +165,7 @@ export default function DetailRecruitment() {
     setContacts((prev) => [...prev, v]);
     setContact("");
   }
-
+  // 링크 유효성 검사
   const isValidUrl = (value) => {
     try {
       const u = new URL(value);
@@ -139,7 +174,7 @@ export default function DetailRecruitment() {
       return false;
     }
   };
-
+  // 마이페이지 정보 불러오기
   const handleGetMy = async () => {
      if (!user?.id) return;
      try {
@@ -159,30 +194,59 @@ export default function DetailRecruitment() {
       setContact(data.contact);
     } catch (e) {
       handleError(e); 
-      // console.log(e);
     } 
   }
+  // 시작날짜 유효성 검사
   const onChangeStartDate = (e) => {
   const nextStart = e.target.value;
   setStartDate(nextStart);
 
-  // start가 end보다 뒤면 end도 같이 당김
+  // start가 end보다 뒤면 end도 같이 당김 
   if (endDate < nextStart) setEndDate(nextStart);
 };
+  // 끝나는 날짜 유효성 검사
+  const onChangeEndDate = (e) => {
+    const nextEnd = e.target.value;
 
-const onChangeEndDate = (e) => {
-  const nextEnd = e.target.value;
-
-  // end가 start보다 앞이면 start로 보정(또는 return 처리)
-  if (nextEnd < startDate) {
-    setEndDate(startDate);
-    return;
-  }
-  setEndDate(nextEnd);
-};
-
- const splitDate = (date) => {
+    // end가 start보다 앞이면 start로 보정(또는 return 처리)
+    if (nextEnd < startDate) {
+      setEndDate(startDate);
+      return;
+    }
+    setEndDate(nextEnd);
+  };
+  // 날짜 분리
+  const splitDate = (date) => {
     return date ? date.split("T")[0] : "";
+  }
+    // 상태 변경
+  const handleStatusChange = (recruitAppId, value) => {
+    setApps(prev => 
+      prev.map(app => 
+          app.recruitAppId === recruitAppId
+          ? { ...app, status: value }
+          : app
+      )
+    );
+  };
+  // 작성자 제출 정보 상태 변경
+  const handleStatusChangeSubmit = async (recruitAppId) => {
+    try {
+      const target = apps.find(app => app.recruitAppId === recruitAppId);
+      if (!target) return;
+
+      const status = target.status ?? "WAIT";
+      
+      await api.patch(`/recruitment-app`, null, {
+        params: {
+          recruitAppId,
+          status
+        }
+      });
+      await getData();
+    } catch (e) {
+      console.log(e);
+    }
   }
 
 
@@ -213,11 +277,14 @@ const onChangeEndDate = (e) => {
       <form className={styles.form} onSubmit={handleSubmit}>
       {state.userId !== user?.id ?
       <> 
-      <div className={styles.form__title}>
-          <h2>제출 폼 </h2>
-          <button type='button' onClick={handleGetMy} className={styles.form__title__btn}>불러오기</button>
-        </div>
-        <div className={styles.form__input}>
+      <div className={`${styles.form__title}`}>
+          <h2>{isEdit ? "작성한 내역" : "제출 폼"}</h2>
+          {!isDisable 
+          ? <button type='button' onClick={handleGetMy} className={styles.form__title__btn}>불러오기</button>
+          : <button type='button' onClick={() => alert("삭제요청 이벤트")} className={styles.form__title__btn}>신청 취소</button>
+          }
+          </div>
+        <div className={`${styles.form__input}  ${isDisable && styles.disable}` }>
           <div className={styles.name}>
           <label> 이름 <span className={styles.redpoint}> * </span> </label><input type="text" value={name} onChange={(e) => setName(e.target.value)} />
           </div>
@@ -257,13 +324,15 @@ const onChangeEndDate = (e) => {
             </svg>
           </div>
           <div className={styles.link__list}>
-            {links.map((link, index) => <div className={styles.link__item_wrap}><a className={styles.link__item} rel="noopener noreferrer" target="_blank" href={link} key={index}>{link.split("/")[2]}</a> 
+            {links.length > 0 && links[0] !== "" && links.map((link, index) => ( <div key={index} className={styles.link__item_wrap}>
+                                        <a className={styles.link__item} rel="noopener noreferrer" target="_blank" href={link} key={index}>{link.split("/")[2]}</a> 
                                         <button onClick={() => handleDeleteLink(index)}>
                                           <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"  viewBox="0 0 16 16">
                                           <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
                                           <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
                                          </svg>
-                                        </button></div>)}
+                                        </button>
+                                        </div>))}
           </div>
           <label> contact (이메일, 번호 , SNS , discord ...) </label>
           <div className={styles.link}>
@@ -277,7 +346,7 @@ const onChangeEndDate = (e) => {
             </svg>
           </div>
           <div className={styles.link__list}>
-            {contacts.map((contact, index) => <div className={styles.link__item_wrap}> <p className={styles.link__item} rel="noopener noreferrer" target="_blank" key={index}>{contact}</p>
+            { contacts.length > 0 && contacts[0] !== "" && contacts.map((contact, index) => <div key={index} className={styles.link__item_wrap}> <p className={styles.link__item} rel="noopener noreferrer" target="_blank" key={index}>{contact}</p>
                                               <button onClick={() => handleDeleteContact(index)}>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"  viewBox="0 0 16 16">
                                                 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
@@ -286,39 +355,32 @@ const onChangeEndDate = (e) => {
                                               </button></div>)}                                  
           </div>
         </div>
-        <button type='submit' className={styles.form__submit}
-        >제출</button>
+        <button type='submit' className={styles.form__submit} disabled={isDisable} style={{opacity : isDisable && "0.7"}}
+        >{!isDisable ? "제출" : "이미 제출한 내역은 수정이 불가합니다"}</button>
         </>  
         : 
         <div>
           <p className={styles.resc_title}>신청자 리스트</p>
           <ul className={styles.resc_ul}>
-          {apps.map((app, index) =>
-             <li key={index} className={styles.resc_list_wrap}>
+          {Array.isArray(apps) && apps.length > 0 && apps.map((app) =>
+             <li key={app.recruitAppId} className={styles.resc_list_wrap}>
               <div className={styles.resc}>
-                <div className={styles.resc_list} >
-                  <div className={styles.resc_name}><p>{app.fullName} </p><span> [{app.position ? app.position : "포지션선택 없음"}]</span></div>
-                  <p>신청일 {splitDate(app.createdAt)} </p>
-                </div>
-                <div className={styles.resc_content}>
-                  <p>{app.oneLine}</p>
-                </div>
-                <div className={styles.resc_link}> 
-                  <a href={app.link}>소개링크</a>
-                  <p>{app.contact}</p>
+                <div className={styles.resc_list}  >
+                  <div className={styles.resc_name}><p>{app.fullName} </p><span>{app.position ? app.position : "포지션선택 없음"}</span></div>
                 </div>
               </div>
               <div className={styles.resc_btn}>
-                <select  value={status[index]} onChange={(e) => handleStatusChange(index , e.target.value)}>
+                <select value={app.status ?? "WAIT"} onChange={(e) => handleStatusChange(app.recruitAppId , e.target.value)}>
                   <option value="ACCEPT">수락</option>
                   <option value="WAIT">대기</option>
                   <option value="REJECT">거절</option>
                 </select>
-                <button type='button' onClick={() => alert(`선택된 상태 (${status[index]}) ,  수정 준비중`)}>
+                <button type='button' onClick={() => handleStatusChangeSubmit(app.recruitAppId)}>
                   수정
                 </button>
               </div>
-             </li>)}
+             </li>
+             )}
           </ul>   
         </div>
         }

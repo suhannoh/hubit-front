@@ -10,26 +10,29 @@ import ProtectedRoute from './layout/ProtectedRoute'
 import DetailRecruitment from './pages/recruitment/DetailRecruitment'
 import ListRecruitment from './pages/recruitment/ListRecruitment'
 import My from './pages/my/My'
+import AuthInitializer from './layout/AuthInitializer'
 
 function App() {
 
   return (
     <>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/recruitment" element={<Recruitment />} />
-          <Route path="/recruitment/:category" element={<ListRecruitment />} />
-          {/* 로그인 필요 영역 !  */}
-          <Route element={<ProtectedRoute />} >
-            <Route path="/recruitment/new" element={<NewRecriutment />} />
-            <Route path="/recruitment/:category/:id" element={<DetailRecruitment />} />
-            <Route path="/my" element={<My />} />
-          </Route>
-        </Routes>
-      </Layout>
+      <AuthInitializer>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/recruitment" element={<Recruitment />} />
+            <Route path="/recruitment/:category" element={<ListRecruitment />} />
+            {/* 로그인 필요 영역 !  */}
+            <Route element={<ProtectedRoute />} >
+              <Route path="/recruitment/new" element={<NewRecriutment />} />
+              <Route path="/recruitment/:category/:id" element={<DetailRecruitment />} />
+              <Route path="/my" element={<My />} />
+            </Route>
+          </Routes>
+        </Layout>
+      </AuthInitializer>
     </>
   )
 }
