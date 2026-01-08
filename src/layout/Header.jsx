@@ -45,9 +45,7 @@ export default function Header() {
         {/* <div >
           <Link to="/my">My</Link>
         </div> */}
-        <div className={styles.user}>
-          <Link to="/my"> {user.name}</Link>
-        </div>
+          <Link to="/my" className={styles.user}> {user.name}</Link>
         <div className={styles.logout__menu} onClick={handleLogout}>
             <svg xmlns="http://www.w3.org/2000/svg" 
               width="22" height="24" viewBox="0 0 24 24" className={styles.logout}
