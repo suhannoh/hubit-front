@@ -38,7 +38,14 @@ export default function My() {
     getData();
   },[])
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!user?.id) {           // 혹시 모를 방어
+    alert("로그인 후 이용해주세요.");
+    return;
+    }
+    
     try {
         await api.post("/my" , 
           {
