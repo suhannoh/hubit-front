@@ -1,12 +1,15 @@
 .container {
   width: 100%;
-  max-width: 700px;  
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
   overflow: hidden;
   padding: 4rem clamp(1rem, 5vw, 3rem);  
   margin: 0 auto;
+  gap: 2rem;
+}
+.content {
+  display: flex;
+  flex-direction: column;
   gap: 2rem;
 }
 .my {
@@ -17,45 +20,45 @@
   gap: 2rem;
 }
 .app {
-  background: var(--lightbg);
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 1fr);
   border-bottom: 1px solid var(--border);
+  gap: 0.5rem;
+}
+.app:hover {
+  opacity: 0.6;
 }
 .app div {
-  background: var(--lightbg);
-
   display: flex;
+  justify-content: space-between;
   gap: 1rem;
+  padding-bottom: 0.3rem;
 }
 .app h3 {
-  background: var(--lightbg);
   font-size: 1.2rem;
   overflow: hidden;
 }
 .app p {
-  background: var(--lightbg);
+  color: var(--primary);
 }
 .app span {
-  background: var(--lightbg);
   font-size: 13px;
   display: flex;
   align-items: center;
   opacity: 0.8;
+  
 }
 .info {
-  background: var(--lightbg);
+  background: inherit;
   padding: 2rem;
   border: 1px solid var(--border);
   border-radius: 10px;
   gap: 2rem;
 }
-.info p {
-  background: var(--lightbg);
-}
+
 .info h2 {
   margin-bottom: 0.7rem;
-  background: var(--lightbg);
+  background: inherit;
   padding-bottom: 1rem;
   border-bottom: 1px solid var(--border);
 }
@@ -63,16 +66,13 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 2rem;
-  background: var(--lightbg);
   padding: 1rem;
 }
 .input__box {
   width: 100%;
-    display: grid;
+  display: grid;
   grid-template-columns: 120px 1fr;
   gap: 1rem;
-  background: var(--lightbg);
-  
 }
 .input__box input,
 .input__box select {
@@ -87,7 +87,6 @@
 }
 .label {
   min-width: 5rem;
-  background: var(--lightbg);
   display: flex;
   border-right: 1px solid var(--border);
   padding-right: 1rem;
@@ -96,18 +95,15 @@
 .profile {
   border: 1px solid var(--border);
   border-radius: 10px;
-  background: var(--lightbg);
   padding: 2rem;
-  /* padding: 0 3rem; */
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  overflow: hidden;
+  background: inherit;
 }
 
 .profile h2 {
   margin-bottom: 0.7rem;
-  background: var(--lightbg);
   padding-bottom: 1rem;
   border-bottom: 1px solid var(--border);
 }
@@ -115,30 +111,41 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 2rem;
-  background: var(--lightbg);
   padding: 1rem;
+}
+.help_box {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 .help {
   border: 1px solid var(--border);
-  background: var(--lightbg);
   border-radius: 10px;
   padding: 2rem;
   display: flex;
   flex-direction: column;
   gap: 2rem;
 }
-.help h2 {
-  margin-bottom: 0.7rem;
-  background: var(--lightbg);
-  padding-bottom: 1rem;
+.help__title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   border-bottom: 1px solid var(--border);
+}
+.help span {
+  opacity: 0.7;
+  cursor: pointer;
+}
+.help h2 {
+  flex: 1;
+  background: inherit;
+  padding-bottom: 1rem;
 }
 .input__box2 {
   padding: 1rem;
   display: grid;
   grid-template-columns: 120px 1fr;
   gap: 1rem;
-  background: var(--lightbg);
 }
 .input__box2 input {
   width: 100%;
@@ -154,13 +161,17 @@
   min-width: 10rem
 }
 .profile__title {
+  background: inherit;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--lightbg);
   padding: 1rem;
 }
+.profile__title * {
+  background: inherit;
+}
+
 .profile button {
   width: 10rem;
   border: 1px solid var(--border);
@@ -185,8 +196,12 @@
   padding: 1rem;
   display: flex;
   justify-content: flex-end;
-  background: var(--lightbg);
 }
 .button button {
   background: var(--primary);
+}
+.input_box{
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }

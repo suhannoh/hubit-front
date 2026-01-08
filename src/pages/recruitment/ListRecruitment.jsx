@@ -54,7 +54,14 @@ export default function ListRecruitment() {
 
   return (
     <div className={styles.container}>
-      <h1>{path}</h1>
+      <div className={styles.hero}>
+        <h1>{path}</h1>
+        <p><span> 프로젝트를 함께할 팀원을 구하시나요 ? </span>
+                      <Link 
+                      to={"/recruitment/new"} 
+                      className={styles.link}
+                            > 프로젝트 만들기</Link></p>
+      </div>
       <div className={ list.length > 0 ? styles.list : styles.empty} >
         {list.length > 0 ? list.map(item => (
               <RecruitmentCard key={item.recruitmentId} item={item} />

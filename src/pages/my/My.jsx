@@ -3,16 +3,23 @@ import userStore from '../../store/user';
 import styles from './My.module.css'
 import { handleError } from '../../api/error';
 import { api } from '../../api/api';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 export default function My() {
+  const navigate = useNavigate();
   const {user} = userStore();
   const [name , setName] = useState("");
   const [position, setPosition] = useState("");
   const [oneLine , setOneLine] = useState("");
   const [link , setLink] = useState("");
   const [contact , setContact] = useState("");
-  const [apps , setApps] = useState([]);
+  const [openApps , setOpenApps] = useState([]);
+  const [closedApps , setClosedApps] = useState([]);
   const splitDate = (date) => {
     return date.split("T")[0];
+  }
+
+  if (!user || !user.id) {
+    return <Navigate to="/login" replace />;
   }
 
   useEffect(() => {
@@ -22,10 +29,10 @@ export default function My() {
           params : {
             userId : user.id
           }
-        });
-        console.log(data.apps)
+        }); 
         if (!data) return;
-        setApps(data.apps)
+        setOpenApps(data.apps.filter(app => app.recruitment?.status === "OPEN"));
+        setClosedApps(data.apps.filter(app => app.recruitment?.status === "CLOSED"));
         setName(data.fullName ?? "");
         setPosition(data.position ?? "");
         setOneLine(data.oneLine ?? "");
@@ -63,12 +70,13 @@ export default function My() {
     }
   }
   const getStatus = (status) => {
-    if (status === "ACCEPT") return "승인"
-    if (status === "REJECT") return "거절"
-    if (status === "WAIT") return "대기중"
+    if (status === "ACCEPT") return "승인된 프로젝트입니다"
+    if (status === "REJECT") return "거절된 신청입니다"
+    if (status === "WAIT") return "수락 대기중입니다"
   }
   return (
     <div className={styles.container}>
+      <div className={styles.content}>
       <div className={styles.my}>
         <section className={styles.info}>
         <h2> 가입 정보 </h2>
@@ -103,18 +111,6 @@ export default function My() {
           </div>
         </div>
         </section>
-        <section className={styles.help}>
-          <h2>지원 / 진행 현황</h2>
-          {apps.map((app,idx) => (
-            <div key={idx} className={styles.app}>
-              <h3>{app.recruitmentTitle}</h3>
-              <div>
-                <p>{getStatus(app.status)}</p>
-                <span>{splitDate(app.createdAt)}</span>
-              </div>
-             </div> 
-          ))}
-        </section>
       </div>
      <form className={styles.profile} onSubmit={handleSubmit}>
       <div className={styles.profile__title}>
@@ -127,7 +123,7 @@ export default function My() {
             value={name} onChange={(e) => setName(e.target.value)}  /> 
           </div>
           <div className={styles.input__box}>
-            <label className={styles.label}>포지션</label>
+            <label className={styles.label}>선호 포지션</label>
             <select value={position} onChange={(e) => setPosition(e.target.value)} >
               <option value="">선택없음</option>
               <option value="frontend">프론트엔드</option>
@@ -154,7 +150,45 @@ export default function My() {
           <button type="submit"> 수정 </button>
         </div>
       </form> 
+      </div>
 
+        <section className={styles.help_box}>
+          <div className={styles.help}>
+            <div className={styles.help__title}>
+              <h2>참여한 프로젝트</h2>  
+              <span>더보기</span>
+            </div>
+              {closedApps.map((app,idx) => (
+                 <Link 
+              to={`/recruitment/${app.category}/${app.recruitment.recruitmentId}`}
+              key={idx} className={styles.app}>
+                <h3>{app.recruitmentTitle}</h3>
+                <div>
+                  <p>{getStatus(app.status)}</p>
+                  <span>신청날짜 - {splitDate(app.createdAt)}</span>
+                </div>
+              </Link> 
+              ))}<p>참여한 프로젝트가 없습니다.</p>  
+          </div>
+          <div className={styles.help}>
+            <div className={styles.help__title}>
+              <h2>지원 현황</h2>  
+              <span>더보기</span>
+            </div>
+            {openApps.map((app,idx) => (
+              console.log("status" , app.recruitment.status),
+              <Link 
+              to={`/recruitment/${app.category}/${app.recruitment.recruitmentId}`}
+              key={idx} className={styles.app}>
+                <h3>{app.recruitmentTitle}</h3>
+                <div>
+                  <p>{getStatus(app.status)}</p>
+                  <span>신청날짜 - {splitDate(app.createdAt)}</span>
+                </div>
+              </Link> 
+            ))}
+          </div>
+        </section>
     </div>
   )
 }

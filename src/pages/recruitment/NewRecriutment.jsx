@@ -150,7 +150,7 @@ const onChangeEndDate = (e) => {
         </div>
           <div className={styles.preview}>
             <label> Preview </label>
-            <RecruitmentCard item={previewData}/>
+            <RecruitmentCard item={previewData} cardType="preview"/>
             <button type='submit'> 생성 </button>
           </div>
       </form>

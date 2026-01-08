@@ -1,4 +1,4 @@
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import styles from './DetailRecruitment.module.css'
 import { useEffect, useState } from 'react';
 import userStore from '../../store/user';
@@ -6,12 +6,12 @@ import { handleError } from '../../api/error';
 import { api } from '../../api/api';
 
 export default function DetailRecruitment() {
-  const { state } = useLocation();
-  // console.log(state);
   const { id } = useParams();  
   const today = new Date().toISOString().split("T")[0];
   const {user} = userStore();
 
+// 게시글
+  const [recruitment, setRecruitment] = useState({})
 
 // 참여자 전용
   const [isEdit, setIsEdit] = useState(false);
@@ -24,22 +24,46 @@ export default function DetailRecruitment() {
   const [text, setText] = useState('');
   const [contacts , setContacts] = useState([]);
   const [contact , setContact] = useState('');
-
-
+// 참여 정보 
+  const [recruitmentApp, setRecruitmentApp] = useState({});
 //  작성자 전용 
   const [apps , setApps] = useState([]);
   const [isDisable , setIsDisable] = useState(false);
 
+// reset
+  const resetForm = () => {
+  setRecruitmentApp(null);
+  setIsEdit(false);
+  setIsDisable(false);
+  setName('');
+  setPosition('');
+  setText('');
+  setLinks([]);
+  setContacts([]);
+  setStartDate(today);
+  setEndDate(today);
+};
   // 초기 데이터
   useEffect(() => { // 신청자
-if (state.userId && user?.id && state.userId === user.id) {
-  getData();
-} else {
-  getData2();
-}
-},[id, state.userId, user?.id])
+    if (!user?.id) return;
+    if (!recruitment) return; 
+    const getRecruitment = async () => {
+      try {
+        const {data} = await api.get(`/recruitment/${id}`)
+        setRecruitment(data);
+      } catch (e) {
+        handleError(e);
+      }
+    }
+    getRecruitment();
+    if (recruitment.userId && user?.id && recruitment.userId === user.id) {
+        getData();
+    } else {
+      getData2();
+  }
+  },[id, user?.id, recruitment?.userId , recruitmentApp?.recruitAppId])
 // 작성자 정보 가져오기 
-    const getData = async () => {
+  const getData = async () => {
       try {
         const {data} = await api.get(`/recruitment-app`, {
           params : {
@@ -55,7 +79,6 @@ if (state.userId && user?.id && state.userId === user.id) {
           return order[a.status ?? "WAIT"] - order[b.status ?? "WAIT"];
         });
         setApps(sorted);
-        // setStatus(data.map(d => d.status ?? "WAIT"));
       } catch (e) {
         handleError(e);
       } 
@@ -68,8 +91,11 @@ if (state.userId && user?.id && state.userId === user.id) {
           userId : user?.id
         }
       });
-      if(!data) return;
-      console.log(data);
+      if (!data) {
+      resetForm();
+      return;
+    }
+      setRecruitmentApp(data);
       setIsEdit(true);
       setName(data.fullName ?? "");
       setPosition(data.position ?? "");
@@ -87,6 +113,7 @@ if (state.userId && user?.id && state.userId === user.id) {
   // 프로젝트 신청
   const handleSubmit = async (e) => {
     e.preventDefault();
+     if (!user?.id) return;
    // Recruitment-App Request 
     try {
       await api.post('/recruitment-app' , {
@@ -105,6 +132,23 @@ if (state.userId && user?.id && state.userId === user.id) {
     } catch (e) {
       handleError(e);
     } 
+  }
+  const handleCancel = async () => {
+    const ok = confirm("신청을 취소하시겠습니까 ? ");
+    if(!ok) return;
+    console.log(recruitmentApp.recruitAppId , user.id);
+    try {
+      await api.delete(`/recruitment-app` , {
+              params : {
+                recruitAppId : recruitmentApp.recruitAppId,
+                userId : user?.id
+              }
+            });
+      alert("정상적으로 신청이 취소되었습니다");
+      resetForm();
+    } catch (e) {
+      handleError(e);
+    }
   }
   // 스택컬러 
   const stackColor = {
@@ -249,39 +293,57 @@ if (state.userId && user?.id && state.userId === user.id) {
     }
   }
 
+  const handleRecruitmentClosed = async () => {
+    const ok = confirm(" 프로젝트 모집을 마감하시겠습니까 ? ")
+    if(!ok) return;
+    try {
+      await api.patch(`/recruitment/${id}`);
+       setRecruitment(prev => ({
+      ...prev,
+      status: "CLOSED",
+    }));
 
-
-
+    alert("프로젝트가 마감되었습니다.");
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  
+  const isClosed = recruitment.status === "CLOSED";
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        <h1>{state.title}</h1>
+        <h1>{recruitment.title}</h1>
         <div className={styles.info}>
-          <p>{state.startDate} ~ {state.endDate}</p>
-          <p className={styles.author}>{state.author}</p>
+          <p> 프로젝트 진행 기간 : {recruitment.startDate} ~ {recruitment.endDate}</p>
+          <p className={styles.author}>{recruitment.author}</p>
         </div>
         <div className={styles.stack}>
-          <div className={`${styles.stack__list} `}>{state.stack.map((s, i) => (<p style={{ backgroundColor: getStackColor(s) }} key={i} >{s}</p>))}</div>
+          <div className={styles.stack__list}>
+            {Array.isArray(recruitment.stack) && recruitment.stack.map((s, i) => 
+              (<p style={{ backgroundColor: getStackColor(s) }} key={i} >{s}</p>))
+            }</div>
         </div>
         <div className={styles.project__info}>
           <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" viewBox="0 0 16 16">
             <path d="M10.478 1.647a.5.5 0 1 0-.956-.294l-4 13a.5.5 0 0 0 .956.294zM4.854 4.146a.5.5 0 0 1 0 .708L1.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0m6.292 0a.5.5 0 0 0 0 .708L14.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l-3.5-3.5a.5.5 0 0 0-.708 0" />
           </svg>
           <div className={styles.project__info__content}>
-            <p> {state.projectTitle}</p>
-            <p> {state.projectDesc}</p>
+            <p> {recruitment.projectTitle}</p>
+            <p> {recruitment.projectDesc}</p>
           </div>
         </div>
-        <p className={styles.content__desc}>{state.content}</p>
+        <p className={styles.content__desc}>{recruitment.content}</p>
       </div>
-      <form className={styles.form} onSubmit={handleSubmit}>
-      {state.userId !== user?.id ?
+      <form className={`${styles.form} ${isClosed && styles.closed}`} onSubmit={handleSubmit}>
+      {recruitment.userId !== user?.id ?
+      // 신청 내역 렌더링
       <> 
       <div className={`${styles.form__title}`}>
           <h2>{isEdit ? "작성한 내역" : "제출 폼"}</h2>
           {!isDisable 
           ? <button type='button' onClick={handleGetMy} className={styles.form__title__btn}>불러오기</button>
-          : <button type='button' onClick={() => alert("삭제요청 이벤트")} className={styles.form__title__btn}>신청 취소</button>
+          : <button type='button' onClick={handleCancel} className={styles.form__title__btn}>신청 취소</button>
           }
           </div>
         <div className={`${styles.form__input}  ${isDisable && styles.disable}` }>
@@ -358,13 +420,22 @@ if (state.userId && user?.id && state.userId === user.id) {
         <button type='submit' className={styles.form__submit} disabled={isDisable} style={{opacity : isDisable && "0.7"}}
         >{!isDisable ? "제출" : "이미 제출한 내역은 수정이 불가합니다"}</button>
         </>  
-        : 
+        : isClosed ? 
+         <div> 마감 된 프로젝트 입니다</div> 
+         :
+        // 지원자 목록 렌더링 
         <div>
-          <p className={styles.resc_title}>신청자 리스트</p>
+          <div className={styles.resc_title_wrap}>
+            <p className={styles.resc_title}>신청자 리스트</p>
+            <button type='button' onClick={handleRecruitmentClosed}>
+              마감
+            </button>
+          </div>
           <ul className={styles.resc_ul}>
           {Array.isArray(apps) && apps.length > 0 && apps.map((app) =>
-             <li key={app.recruitAppId} className={styles.resc_list_wrap}>
-              <div className={styles.resc}>
+             <li key={app.recruitAppId} className={`${styles.resc_list_wrap}`} 
+                 >
+              <div className={`${styles.resc}  ${app.status === "ACCEPT" && styles.accept} ${app.status === "REJECT" && styles.reject}`}>
                 <div className={styles.resc_list}  >
                   <div className={styles.resc_name}><p>{app.fullName} </p><span>{app.position ? app.position : "포지션선택 없음"}</span></div>
                 </div>

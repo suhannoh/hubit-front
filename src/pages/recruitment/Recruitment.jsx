@@ -24,7 +24,7 @@ export default function Recruitment() {
     <div className={styles.container}>
       <section className={styles.recruitment}>
         <div className={styles.hero}>
-          <h1>방금 올라온 프로젝트 </h1>
+          <h1>최근 올라온 프로젝트 </h1>
         </div>
         <div className={styles.hot_recruitment}>
           <CardSlider items={list} />  
@@ -32,7 +32,7 @@ export default function Recruitment() {
       </section>
       <section className={styles.recruitment_grid}>
           <div className={styles.hero}>
-            <h1> 흥미로운 프로젝트를 선택하여 진행해보세요 </h1>
+            <h1> 흥미로운 카테고리를 선택하여 프로젝트를 진행해보세요 </h1>
             <p><span> 프로젝트를 함께할 팀원을 구하시나요 ? </span>
               <Link 
               to={"/recruitment/new"} 

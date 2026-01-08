@@ -18,11 +18,19 @@
   background: var(--lightbg);
 }
 .form {
+  position: relative;
   flex: 1;
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 2rem;
 }
+
+.closed {
+  pointer-events: none;
+  opacity: 0.4;
+  filter: blur(1px);
+}
+
 .form__title {
   width: 100%;
   display: flex;
@@ -268,12 +276,34 @@
 .text label {
   background: var(--lightbg);
 }
+.resc_title_wrap{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--lightbg);
+  border-bottom: 1px solid var(--border);
+
+}
+.resc_title_wrap button {
+  background: var(--lightbg);
+  color: var(--text);
+  font-weight: bold;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+}
+.resc_title_wrap button:hover {
+  opacity: 0.6;
+  background: var(--primary);
+}
 .resc_title {
   padding-bottom: 0.7rem;
   background: var(--lightbg);
   font-size: 1.5rem;
   font-weight: bold;
-  border-bottom: 1px solid var(--border);
 }
 .resc_ul {
   padding-top: 1rem;
@@ -313,10 +343,30 @@
 .resc_name span {
   font-weight: normal;
   font-size: 0.8rem;
-  background: var(--lightbg);
+  background: inherit;
 }
 .resc_name p {
-  background: var(--lightbg); 
+    background: inherit;
+ 
+}
+.reject p,
+.reject span {
+  position: relative;
+  display: inline-block;
+}
+.reject p::after,
+.reject span::after {
+  content: "";
+  position: absolute;
+  left: -4px;          /* 텍스트보다 왼쪽으로 조금 더 나가게 */
+  right: -4px;         /* 오른쪽으로도 더 나가게 */
+  top: 50%;
+  transform: translateY(-50%);
+  border-top: 2px solid #000;   /* 선 두께 + 색 */
+  pointer-events: none;
+}
+.accept p{
+  background: rgb(212, 223, 70);
 }
 .resc_content {
   width: 100%;
@@ -345,7 +395,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  background: var(--lightbg);
+  background: inherit;
 }
 .resc_btn {
   display: flex;
@@ -377,6 +427,7 @@
   opacity: 0.8;
   background: var(--lightbg);
 }
+
 
 @media (max-width: 1024px) {
   .container {
