@@ -3,9 +3,8 @@ import userStore from '../../store/user';
 import styles from './My.module.css'
 import { handleError } from '../../api/error';
 import { api } from '../../api/api';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 export default function My() {
-  const navigate = useNavigate();
   const {user} = userStore();
   const [name , setName] = useState("");
   const [position, setPosition] = useState("");
@@ -31,6 +30,7 @@ export default function My() {
           }
         }); 
         if (!data) return;
+        console.log(data);
         setOpenApps(data.apps.filter(app => app.recruitment?.status === "OPEN"));
         setClosedApps(data.apps.filter(app => app.recruitment?.status === "CLOSED"));
         setName(data.fullName ?? "");
@@ -158,7 +158,7 @@ export default function My() {
               <h2>참여한 프로젝트</h2>  
               <span>더보기</span>
             </div>
-              {closedApps.map((app,idx) => (
+              {closedApps ? closedApps.map((app,idx) => (
                  <Link 
               to={`/recruitment/${app.category}/${app.recruitment.recruitmentId}`}
               key={idx} className={styles.app}>
@@ -168,15 +168,15 @@ export default function My() {
                   <span>신청날짜 - {splitDate(app.createdAt)}</span>
                 </div>
               </Link> 
-              ))}<p>참여한 프로젝트가 없습니다.</p>  
+              )) 
+              : <p>참여한 프로젝트가 없습니다.</p> } 
           </div>
           <div className={styles.help}>
             <div className={styles.help__title}>
-              <h2>지원 현황</h2>  
+              <h2>최근 지원 현황</h2>  
               <span>더보기</span>
             </div>
             {openApps.map((app,idx) => (
-              console.log("status" , app.recruitment.status),
               <Link 
               to={`/recruitment/${app.category}/${app.recruitment.recruitmentId}`}
               key={idx} className={styles.app}>

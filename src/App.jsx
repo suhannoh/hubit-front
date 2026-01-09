@@ -11,6 +11,7 @@ import DetailRecruitment from './pages/recruitment/DetailRecruitment'
 import ListRecruitment from './pages/recruitment/ListRecruitment'
 import My from './pages/my/My'
 import AuthInitializer from './layout/AuthInitializer'
+import Project from './pages/project/Project'
 
 function App() {
 
@@ -27,7 +28,9 @@ function App() {
             {/* 로그인 필요 영역 !  */}
             <Route element={<ProtectedRoute />} >
               <Route path="/recruitment/new" element={<NewRecriutment />} />
+              <Route path="/recruitment/update/:id" element={<NewRecriutment />} />
               <Route path="/recruitment/:category/:id" element={<DetailRecruitment />} />
+              <Route path="/recruitment/project/:id" element={<Project />} />
               <Route path="/my" element={<My />} />
             </Route>
           </Routes>

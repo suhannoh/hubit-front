@@ -18,19 +18,59 @@
   background: var(--lightbg);
 }
 .form {
-  position: relative;
   flex: 1;
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 2rem;
 }
-
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.7rem;
+  background: inherit;
+}
+.title button {
+  width: max-content;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border);
+  background-color: var(--primary);
+  font-size: 14px;
+  cursor: pointer;
+}
+.title button:hover {
+  opacity: 0.7;
+}
 .closed {
+  overflow: hidden;
+   position: relative;
+   cursor: pointer;
+}
+.closed .form__input,
+.closed .form__title,
+.closed .form__submit{
   pointer-events: none;
   opacity: 0.4;
   filter: blur(1px);
 }
-
+.title a {
+  width: max-content;
+  height: 100%;
+  padding: 0.5rem 3rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border);
+  background: var(--sub-primary);
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--text);
+  font-weight: bold;
+}
+.title a:hover {
+  opacity: 0.7;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
 .form__title {
   width: 100%;
   display: flex;
@@ -347,7 +387,16 @@
 }
 .resc_name p {
     background: inherit;
- 
+}
+.resc_detail {
+  top: 50%;
+  right: 50%;
+  transform: translateX(50%);
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: var(--lightbg);
 }
 .reject p,
 .reject span {

@@ -1,11 +1,17 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import RecruitmentCard from '../../components/RecruitmentCard'
 import styles from './NewRecriutment.module.css'
 import userStore from '../../store/user';
 import { api } from '../../api/api';
 import { handleError } from '../../api/error';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 export default function NewRecriutment() {
+  // Update recruitment
+  const {state} = useLocation();
+  const recruitment = state?.recruitment;
+  const isEdit = !!recruitment; 
+
+  console.log("넘어온 데이터"  , state)
   const [title, setTitle] = useState("");
   const today = new Date().toISOString().split("T")[0];
   const [startDate, setStartDate] = useState(today);
@@ -21,6 +27,26 @@ export default function NewRecriutment() {
 
   const {user} = userStore();
   const navigate = useNavigate();
+
+    const handleUpdateSet = (data) => {
+    setTitle(data.title ?? "");
+    setStartDate(data.startDate ?? today);
+    setEndDate(data.endDate ?? today);
+    setProjectTitle(data.projectTitle ?? "");
+    setProjectDesc(data.projectDesc ?? "");
+    setContent(data.content ?? "");
+    // 백엔드 객체가 stack 이라는 이름으로 온다고 가정
+    setStacks(data.stack ?? []); 
+  };
+    
+ useEffect(() => {
+    if (recruitment) {
+      console.log("UPDATE MODE");
+      handleUpdateSet(recruitment);
+    } else {
+      console.log("NEW MODE");
+    }
+  }, [recruitment]);
   
   const handleClick = (stack) => {
     if(stacks.includes(stack)) {
@@ -40,18 +66,18 @@ export default function NewRecriutment() {
   if (endDate < nextStart) setEndDate(nextStart);
 };
 
-const onChangeEndDate = (e) => {
-  const nextEnd = e.target.value;
+  const onChangeEndDate = (e) => {
+    const nextEnd = e.target.value;
 
-  // end가 start보다 앞이면 start로 보정(또는 return 처리)
-  if (nextEnd < startDate) {
-    setEndDate(startDate);
-    return;
-  }
-  setEndDate(nextEnd);
+    // end가 start보다 앞이면 start로 보정(또는 return 처리)
+    if (nextEnd < startDate) {
+      setEndDate(startDate);
+      return;
+    }
+    setEndDate(nextEnd);
 };
 
-  const getCategoryByStacks = (stacks) => {
+  const getCategoryByStacks = (stacks = []) => {
     const front = ["REACT", "VUE", "HTML", "CSS", "JAVASCRIPT", "TYPESCRIPT"];
     const back = ["JAVA", "SPRING", "SPRING BOOT", "PYTHON"];
 
@@ -68,8 +94,10 @@ const onChangeEndDate = (e) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      await api.post('/recruitment' , {
+    const ok = confirm(`프로젝트 ${isEdit ? "수정" : "생성"}을 완료하시겠습니까 ?`);
+    if(!ok) return;
+
+    const req = {
         userId : user.id,
         author : user.name,
         title : title,
@@ -80,28 +108,48 @@ const onChangeEndDate = (e) => {
         endDate : endDate,
         stack : stacks,
         category
-      });
-
-      alert("프로젝트 생성이 정상적으로 완료되었습니다.");
-      navigate('/recruitment');
+    }
+    try {
+      if(isEdit){
+        //todo update
+        if (
+          recruitment.title === title && recruitment.content === content 
+        && recruitment.projectTitle === projectTitle && recruitment.projectDesc === projectDesc
+        && recruitment.startDate === startDate && recruitment.endDate === endDate 
+        && recruitment.stack === stacks && recruitment.category === category
+        ) {
+          return alert("변경된 내용이 없습니다.");
+        }
+        await api.post(`/recruitment/${recruitment.recruitmentId}` , req);
+        alert(`프로젝트 ${isEdit ? "수정": "생성"}이 정상적으로 완료되었습니다.`);
+        navigate('/recruitment');
+      } 
+      else {
+        await api.post('/recruitment' , req);
+        alert(`프로젝트 ${isEdit ? "수정": "생성"}이 정상적으로 완료되었습니다.`);
+        navigate('/recruitment');
+      } 
     } catch (e) {
       handleError(e);
-    }
+    } 
   }
 
   const previewData = {
       id : user.RecruitmentId,
       author : user.name,
       projectTitle,
-      projectDesc,
+      projectDesc,  
       stack : stacks,
       startDate,
       endDate
     }; 
-  
+    
+
+    
+    
   return (
     <div className={styles.container}>
-      <h1> 프로젝트 생성 </h1>
+      <h1> 프로젝트 {isEdit ? "수정" :  "생성"} </h1>
       <form className={styles.box} onSubmit={handleSubmit} >
         <div className={styles.stack_box}>
           <label>스택 </label>
@@ -151,7 +199,7 @@ const onChangeEndDate = (e) => {
           <div className={styles.preview}>
             <label> Preview </label>
             <RecruitmentCard item={previewData} cardType="preview"/>
-            <button type='submit'> 생성 </button>
+            <button type='submit'> {isEdit ? "수정" : "생성"} </button>
           </div>
       </form>
     </div>

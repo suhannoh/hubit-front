@@ -1,4 +1,4 @@
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import styles from './DetailRecruitment.module.css'
 import { useEffect, useState } from 'react';
 import userStore from '../../store/user';
@@ -6,9 +6,14 @@ import { handleError } from '../../api/error';
 import { api } from '../../api/api';
 
 export default function DetailRecruitment() {
+
+  const navigate = useNavigate(); 
   const { id } = useParams();  
   const today = new Date().toISOString().split("T")[0];
   const {user} = userStore();
+
+  
+
 
 // 게시글
   const [recruitment, setRecruitment] = useState({})
@@ -56,10 +61,11 @@ export default function DetailRecruitment() {
       }
     }
     getRecruitment();
-    if (recruitment.userId && user?.id && recruitment.userId === user.id) {
+    if (isOwner || isAcceptMember) {
         getData();
     } else {
       getData2();
+
   }
   },[id, user?.id, recruitment?.userId , recruitmentApp?.recruitAppId])
 // 작성자 정보 가져오기 
@@ -288,8 +294,9 @@ export default function DetailRecruitment() {
         }
       });
       await getData();
+      alert("수정되었습니다.");
     } catch (e) {
-      console.log(e);
+            handleError(e);
     }
   }
 
@@ -297,23 +304,49 @@ export default function DetailRecruitment() {
     const ok = confirm(" 프로젝트 모집을 마감하시겠습니까 ? ")
     if(!ok) return;
     try {
-      await api.patch(`/recruitment/${id}`);
+      const {data} = await api.patch(`/recruitment/${id}`, null, {
+        params : {
+          userId : user?.id
+        }
+      });
        setRecruitment(prev => ({
       ...prev,
       status: "CLOSED",
     }));
-
-    alert("프로젝트가 마감되었습니다.");
+    console.log("새로운 프로젝트 생성 ID : " , data);
+    alert("모집이 마감되었습니다. 생성된 프로젝트로 이동합니다.");
+    navigate(`/recruitment/project/${data}`);
     } catch (e) {
-      console.log(e);
+            handleError(e);
     }
   }
-  
+
+  const handleProjectDetail = async () => {
+    
+    try {
+      navigate(`/recruitment/project/${recruitmentApp.recruitment.projectId}`);
+    } catch (e) {
+      handleError(e);
+    } 
+
+  }
+
+  const isAcceptMember = recruitmentApp?.status === "ACCEPT";
+  const isOwner =
+  !!(user?.id && recruitment?.userId && recruitment.userId === user.id);
   const isClosed = recruitment.status === "CLOSED";
+
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        <h1>{recruitment.title}</h1>
+        <div className={styles.title}>
+          <h1>{recruitment.title}</h1>
+          <div>
+            <Link to={`/recruitment/project/${recruitment.projectId}`}> 프로젝트 상세페이지로 이동하기 </Link>
+            {isOwner && <button disabled={isClosed} type="button" style={{opacity: isClosed ? 0.5 : 1}}
+                                onClick={() => navigate(`/recruitment/update/${recruitment.recruitmentId}`, {state: {recruitment}})}>수정</button>}
+          </div>
+        </div>
         <div className={styles.info}>
           <p> 프로젝트 진행 기간 : {recruitment.startDate} ~ {recruitment.endDate}</p>
           <p className={styles.author}>{recruitment.author}</p>
@@ -335,16 +368,18 @@ export default function DetailRecruitment() {
         </div>
         <p className={styles.content__desc}>{recruitment.content}</p>
       </div>
-      <form className={`${styles.form} ${isClosed && styles.closed}`} onSubmit={handleSubmit}>
-      {recruitment.userId !== user?.id ?
+      <form className={`${styles.form} ${isClosed && styles.closed}`} onSubmit={handleSubmit}
+            // onClick={isClosed ? handleProjectDetail : undefined}
+            >
+      {!isOwner && !isAcceptMember&& (
       // 신청 내역 렌더링
-      <> 
+      <>
       <div className={`${styles.form__title}`}>
           <h2>{isEdit ? "작성한 내역" : "제출 폼"}</h2>
-          {!isDisable 
-          ? <button type='button' onClick={handleGetMy} className={styles.form__title__btn}>불러오기</button>
-          : <button type='button' onClick={handleCancel} className={styles.form__title__btn}>신청 취소</button>
-          }
+          {!isEdit  
+          ? (<button type='button' onClick={handleGetMy} className={styles.form__title__btn}>불러오기</button>)
+          : recruitmentApp.status === "WAIT" ? (<button type='button' onClick={handleCancel} className={styles.form__title__btn}>신청 취소</button>)
+            : null}
           </div>
         <div className={`${styles.form__input}  ${isDisable && styles.disable}` }>
           <div className={styles.name}>
@@ -419,15 +454,13 @@ export default function DetailRecruitment() {
         </div>
         <button type='submit' className={styles.form__submit} disabled={isDisable} style={{opacity : isDisable && "0.7"}}
         >{!isDisable ? "제출" : "이미 제출한 내역은 수정이 불가합니다"}</button>
-        </>  
-        : isClosed ? 
-         <div> 마감 된 프로젝트 입니다</div> 
-         :
-        // 지원자 목록 렌더링 
+        </>) }
+        {(isAcceptMember || isOwner ) && (
+          <>
         <div>
           <div className={styles.resc_title_wrap}>
             <p className={styles.resc_title}>신청자 리스트</p>
-            <button type='button' onClick={handleRecruitmentClosed}>
+            <button type='button' onClick={handleRecruitmentClosed} style={{opacity : !isOwner && isAcceptMember && "0.3"}}> 
               마감
             </button>
           </div>
@@ -435,18 +468,22 @@ export default function DetailRecruitment() {
           {Array.isArray(apps) && apps.length > 0 && apps.map((app) =>
              <li key={app.recruitAppId} className={`${styles.resc_list_wrap}`} 
                  >
-              <div className={`${styles.resc}  ${app.status === "ACCEPT" && styles.accept} ${app.status === "REJECT" && styles.reject}`}>
+              <div className={`${styles.resc}  ${app.status === "ACCEPT" && styles.accept} ${app.status === "REJECT" && styles.reject}`}
+                  >
                 <div className={styles.resc_list}  >
                   <div className={styles.resc_name}><p>{app.fullName} </p><span>{app.position ? app.position : "포지션선택 없음"}</span></div>
                 </div>
+                <div className={styles.resc_detail} style={{display : "none" , position : "fixed"}}>
+                  {JSON.stringify(app)}
+                </div>
               </div>
               <div className={styles.resc_btn}>
-                <select value={app.status ?? "WAIT"} onChange={(e) => handleStatusChange(app.recruitAppId , e.target.value)}>
+                <select  disabled={ !isOwner && isAcceptMember} value={app.status ?? "WAIT"} onChange={(e) => handleStatusChange(app.recruitAppId , e.target.value)}>
                   <option value="ACCEPT">수락</option>
                   <option value="WAIT">대기</option>
                   <option value="REJECT">거절</option>
                 </select>
-                <button type='button' onClick={() => handleStatusChangeSubmit(app.recruitAppId)}>
+                <button style={{opacity : !isOwner && isAcceptMember && "0.3"}} type='button' onClick={() => handleStatusChangeSubmit(app.recruitAppId)}>
                   수정
                 </button>
               </div>
@@ -454,7 +491,7 @@ export default function DetailRecruitment() {
              )}
           </ul>   
         </div>
-        }
+        </>)}
       </form>
     </div>
   )
