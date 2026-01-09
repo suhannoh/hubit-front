@@ -12,6 +12,7 @@ export default function Home() {
         <Link className={styles.link} to="/recruitment"> 프로젝트 찾으러 가기</Link>
         <Link className={styles.link} to="/my"> 진행중인 프로젝트 </Link>
         <Link className={styles.link} onClick={() => alert("준비중입니다")}> 정보처리기사 공부 </Link>
+        <Link className={styles.link} to="/test"> 간단한 테스트 순서</Link>
       </div>
     </div>
   )

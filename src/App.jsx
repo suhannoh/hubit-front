@@ -12,6 +12,7 @@ import ListRecruitment from './pages/recruitment/ListRecruitment'
 import My from './pages/my/My'
 import AuthInitializer from './layout/AuthInitializer'
 import Project from './pages/project/Project'
+import Test from './pages/home/Test'
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
         <Layout>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/test" element={<Test />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
             <Route path="/recruitment" element={<Recruitment />} />
