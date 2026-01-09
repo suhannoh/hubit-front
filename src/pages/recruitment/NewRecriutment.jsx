@@ -10,8 +10,6 @@ export default function NewRecriutment() {
   const {state} = useLocation();
   const recruitment = state?.recruitment;
   const isEdit = !!recruitment; 
-
-  console.log("넘어온 데이터"  , state)
   const [title, setTitle] = useState("");
   const today = new Date().toISOString().split("T")[0];
   const [startDate, setStartDate] = useState(today);

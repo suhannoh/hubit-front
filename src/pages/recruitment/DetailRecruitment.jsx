@@ -142,7 +142,6 @@ export default function DetailRecruitment() {
   const handleCancel = async () => {
     const ok = confirm("신청을 취소하시겠습니까 ? ");
     if(!ok) return;
-    console.log(recruitmentApp.recruitAppId , user.id);
     try {
       await api.delete(`/recruitment-app` , {
               params : {
@@ -233,7 +232,6 @@ export default function DetailRecruitment() {
           userId: user.id
         }
       });
-      console.log(data);
       if (!data || (!data.fullName && !data.position && !data.oneLine && !data.link && !data.contact)) {
         return alert("등록된 정보가 없습니다 , 마이페이지에서 등록 후 이용해주세요.");
       }
@@ -342,7 +340,7 @@ export default function DetailRecruitment() {
         <div className={styles.title}>
           <h1>{recruitment.title}</h1>
           <div>
-            <Link to={`/recruitment/project/${recruitment.projectId}`}> 프로젝트 상세페이지로 이동하기 </Link>
+            {isClosed && <Link to={`/recruitment/project/${recruitment.projectId}`}> 프로젝트 상세페이지로 이동하기 </Link>}
             {isOwner && <button disabled={isClosed} type="button" style={{opacity: isClosed ? 0.5 : 1}}
                                 onClick={() => navigate(`/recruitment/update/${recruitment.recruitmentId}`, {state: {recruitment}})}>수정</button>}
           </div>

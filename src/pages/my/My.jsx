@@ -13,6 +13,7 @@ export default function My() {
   const [contact , setContact] = useState("");
   const [openApps , setOpenApps] = useState([]);
   const [closedApps , setClosedApps] = useState([]);
+  const [apps , setApps] = useState([]);
   const splitDate = (date) => {
     return date.split("T")[0];
   }
@@ -30,7 +31,8 @@ export default function My() {
           }
         }); 
         if (!data) return;
-        console.log(data);
+        const appList = data.apps ?? [];
+        setApps(appList);
         setOpenApps(data.apps.filter(app => app.recruitment?.status === "OPEN"));
         setClosedApps(data.apps.filter(app => app.recruitment?.status === "CLOSED"));
         setName(data.fullName ?? "");
@@ -74,6 +76,8 @@ export default function My() {
     if (status === "REJECT") return "거절된 신청입니다"
     if (status === "WAIT") return "수락 대기중입니다"
   }
+  const myApps = apps.filter(app => app.recruitment.userId === user.id) ?? [];
+
   return (
     <div className={styles.container}>
       <div className={styles.content}>
@@ -155,10 +159,28 @@ export default function My() {
         <section className={styles.help_box}>
           <div className={styles.help}>
             <div className={styles.help__title}>
+              <h2>내가 주도하는 프로젝트</h2>  
+              <span>더보기</span>
+            </div>
+              {myApps.length > 0 ? myApps.map((app,idx) => (
+                 <Link 
+              to={`/recruitment/${app.category}/${app.recruitment.recruitmentId}`}
+              key={idx} className={styles.app}>
+                <h3>{app.recruitmentTitle}</h3>
+                <div>
+                  <p>{getStatus(app.status)}</p>
+                  <span>신청날짜 - {splitDate(app.createdAt)}</span>
+                </div>
+              </Link> 
+              )) 
+              : ( <p>내가 만든 프로젝트가 없습니다.</p> )} 
+          </div>
+          <div className={styles.help}>
+            <div className={styles.help__title}>
               <h2>참여한 프로젝트</h2>  
               <span>더보기</span>
             </div>
-              {closedApps ? closedApps.map((app,idx) => (
+              {closedApps.length > 0 ? closedApps.map((app,idx) => (
                  <Link 
               to={`/recruitment/${app.category}/${app.recruitment.recruitmentId}`}
               key={idx} className={styles.app}>
@@ -176,17 +198,24 @@ export default function My() {
               <h2>최근 지원 현황</h2>  
               <span>더보기</span>
             </div>
-            {openApps.map((app,idx) => (
-              <Link 
-              to={`/recruitment/${app.category}/${app.recruitment.recruitmentId}`}
-              key={idx} className={styles.app}>
-                <h3>{app.recruitmentTitle}</h3>
-                <div>
-                  <p>{getStatus(app.status)}</p>
-                  <span>신청날짜 - {splitDate(app.createdAt)}</span>
-                </div>
-              </Link> 
-            ))}
+            { openApps.length > 0 ? (
+              openApps.map((app, idx) => (
+                <Link 
+                  to={`/recruitment/${app.category}/${app.recruitment.recruitmentId}`}
+                  key={idx} 
+                  className={styles.app}
+                >
+                  <h3>{app.recruitmentTitle}</h3>
+                  <div>
+                    <p>{getStatus(app.status)}</p>
+                    <span>신청날짜 - {splitDate(app.createdAt)}</span>
+                  </div>
+                </Link>
+              ))
+            ) : (
+              <p>최근 지원한 프로젝트가 없습니다.</p>
+            )
+        }
           </div>
         </section>
     </div>
