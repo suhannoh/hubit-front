@@ -12,7 +12,6 @@ export default function Project() {
     const getProject = async () => {
       try {
         const { data } = await api.get(`/recruitment/project/${id}/get`);
-        console.log("project data : ", data);
         setProject(data);
       } catch(e) {
         handleError(e);
