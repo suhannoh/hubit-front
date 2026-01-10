@@ -5,6 +5,7 @@ import userStore from '../../store/user';
 import { api } from '../../api/api';
 import { handleError } from '../../api/error';
 import { useLocation, useNavigate } from 'react-router-dom';
+import Loading from '../../components/Loading';
 export default function NewRecriutment() {
   // Update recruitment
   const {state} = useLocation();
@@ -23,6 +24,7 @@ export default function NewRecriutment() {
     , "JAVASCRIPT" , "TYPESCRIPT" , "PYTHON"
   ]
 
+  const [loading, setLoading] = useState(false);
   const {user} = userStore();
   const navigate = useNavigate();
 
@@ -92,6 +94,7 @@ export default function NewRecriutment() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const ok = confirm(`프로젝트 ${isEdit ? "수정" : "생성"}을 완료하시겠습니까 ?`);
     if(!ok) return;
 
@@ -129,7 +132,9 @@ export default function NewRecriutment() {
       } 
     } catch (e) {
       handleError(e);
-    } 
+    } finally {
+      setLoading(false);
+    }
   }
 
   const previewData = {
@@ -147,6 +152,7 @@ export default function NewRecriutment() {
     
   return (
     <div className={styles.container}>
+      {loading && <Loading />}
       <h1> 프로젝트 {isEdit ? "수정" :  "생성"} </h1>
       <form className={styles.box} onSubmit={handleSubmit} >
         <div className={styles.stack_box}>

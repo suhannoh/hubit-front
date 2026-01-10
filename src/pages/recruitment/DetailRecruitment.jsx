@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import userStore from '../../store/user';
 import { handleError } from '../../api/error';
 import { api } from '../../api/api';
+import Loading from '../../components/Loading';
 
 export default function DetailRecruitment() {
 
@@ -11,7 +12,7 @@ export default function DetailRecruitment() {
   const { id } = useParams();  
   const today = new Date().toISOString().split("T")[0];
   const {user} = userStore();
-
+  const [loading, setLoading] = useState(false);
   
 
 
@@ -52,13 +53,14 @@ export default function DetailRecruitment() {
   useEffect(() => { // 신청자
     if (!user?.id) return;
     if (!recruitment) return; 
+    setLoading(true);
     const getRecruitment = async () => {
       try {
         const {data} = await api.get(`/recruitment/${id}`)
         setRecruitment(data);
       } catch (e) {
         handleError(e);
-      }
+      } 
     }
     getRecruitment();
     if (isOwner || isAcceptMember) {
@@ -66,7 +68,8 @@ export default function DetailRecruitment() {
     } else {
       getData2();
 
-  }
+    }
+    setLoading(false);  
   },[id, user?.id, recruitment?.userId , recruitmentApp?.recruitAppId])
 // 작성자 정보 가져오기 
   const getData = async () => {
@@ -119,6 +122,7 @@ export default function DetailRecruitment() {
   // 프로젝트 신청
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
      if (!user?.id) return;
    // Recruitment-App Request 
     try {
@@ -137,11 +141,14 @@ export default function DetailRecruitment() {
       await getData2();
     } catch (e) {
       handleError(e);
-    } 
+    } finally {
+      setLoading(false);
+    }
   }
   const handleCancel = async () => {
     const ok = confirm("신청을 취소하시겠습니까 ? ");
     if(!ok) return;
+    setLoading(true);
     try {
       await api.delete(`/recruitment-app` , {
               params : {
@@ -153,6 +160,8 @@ export default function DetailRecruitment() {
       resetForm();
     } catch (e) {
       handleError(e);
+    } finally {
+      setLoading(false);
     }
   }
   // 스택컬러 
@@ -226,6 +235,7 @@ export default function DetailRecruitment() {
   // 마이페이지 정보 불러오기
   const handleGetMy = async () => {
      if (!user?.id) return;
+     setLoading(true);
      try {
       const { data } = await api.get("/my", {
         params: {
@@ -242,7 +252,9 @@ export default function DetailRecruitment() {
       setContact(data.contact);
     } catch (e) {
       handleError(e); 
-    } 
+    } finally {
+      setLoading(false);
+    }
   }
   // 시작날짜 유효성 검사
   const onChangeStartDate = (e) => {
@@ -279,6 +291,7 @@ export default function DetailRecruitment() {
   };
   // 작성자 제출 정보 상태 변경
   const handleStatusChangeSubmit = async (recruitAppId) => {
+    setLoading(true);
     try {
       const target = apps.find(app => app.recruitAppId === recruitAppId);
       if (!target) return;
@@ -295,12 +308,15 @@ export default function DetailRecruitment() {
       alert("수정되었습니다.");
     } catch (e) {
             handleError(e);
+    } finally {
+      setLoading(false);
     }
   }
 
   const handleRecruitmentClosed = async () => {
     const ok = confirm(" 프로젝트 모집을 마감하시겠습니까 ? ")
     if(!ok) return;
+    setLoading(true);
     try {
       const {data} = await api.patch(`/recruitment/${id}`, null, {
         params : {
@@ -316,6 +332,8 @@ export default function DetailRecruitment() {
     navigate(`/recruitment/project/${data}`);
     } catch (e) {
             handleError(e);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -336,6 +354,7 @@ export default function DetailRecruitment() {
 
   return (
     <div className={styles.container}>
+      {loading && <Loading />}
       <div className={styles.content}>
             {isClosed && <Link to={`/recruitment/project/${recruitment.projectId}`}> 프로젝트 상세페이지로 이동하기 </Link>}
         <div className={styles.title}>

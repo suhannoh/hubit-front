@@ -3,6 +3,7 @@ import styles from './SignUp.module.css'
 import { api } from '../../api/api';
 import { useNavigate } from 'react-router-dom';
 import { handleError } from '../../api/error';
+import Loading from '../../components/Loading';
 
 export default function SignUp() {
     const [name , setName] = useState('');
@@ -35,10 +36,7 @@ export default function SignUp() {
     }
   return (
     <div className={styles.container}>
-       {loading && <div className={styles.loading}>
-                          <div className={styles.spinner}></div>
-                          <span> 오래 걸릴 시 오른쪽 하단 뱃지 상태를 <br /> 확인하고 새로고침을 해주세요</span>
-                        </div>}
+       {loading && <Loading />}
       <div className={styles.form}>
         <h2>회원가입</h2>
         <form onSubmit={handleSubmit}>

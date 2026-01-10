@@ -4,6 +4,7 @@ import { useState } from 'react';
 import userStore from '../../store/user';
 import { handleError } from '../../api/error';
 import { api } from '../../api/api';
+import Loading from '../../components/Loading';
 export default function Login() {
   const [email , setEmail] = useState('');
   const [password , setPassword] = useState('');
@@ -30,10 +31,7 @@ export default function Login() {
   }
   return (
     <div className={styles.container}>
-      {loading && <div className={styles.loading}>
-                    <div className={styles.spinner}></div>
-                    <span> 오래 걸릴 시 오른쪽 하단 뱃지 상태를 <br /> 확인하고 새로고침을 해주세요</span>
-                  </div>}
+      {loading && <Loading />}
       <div className={styles.form}>
         <h2>로그인</h2>
         <form onSubmit={handleSubmit}>
