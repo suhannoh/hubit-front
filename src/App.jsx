@@ -13,6 +13,7 @@ import My from './pages/my/My'
 import AuthInitializer from './layout/AuthInitializer'
 import Project from './pages/project/Project'
 import Test from './pages/home/Test'
+import Community from './pages/chat/Community'
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
             <Route path="/recruitment/:category" element={<ListRecruitment />} />
             {/* 로그인 필요 영역 !  */}
             <Route element={<ProtectedRoute />} >
+              <Route path="/community" element={<Community />} />
               <Route path="/recruitment/new" element={<NewRecriutment />} />
               <Route path="/recruitment/update/:id" element={<NewRecriutment />} />
               <Route path="/recruitment/:category/:id" element={<DetailRecruitment />} />

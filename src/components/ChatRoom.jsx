@@ -20,7 +20,7 @@ export default function ChatRoom({ roomId, user }) {
   }, [messages]);
   // 입장
   useEffect(() => {
-    if (!roomId) return;
+    if (roomId === null || roomId === undefined) return; 
     setLoading(true);
     // 1) SockJS + STOMP 클라이언트 생성
     // 서버와 웹 소켓을 열 준비 (연결)
@@ -127,7 +127,7 @@ export default function ChatRoom({ roomId, user }) {
   return (
     <div className={styles.container}>
       {loading && <Loading />}
-      <h3>채팅방 
+      <h3>{roomId === 0 ? "전체채팅방" : "채팅방"} 
         {/* #{roomId} */}
 
       </h3>

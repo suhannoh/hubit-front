@@ -32,7 +32,7 @@ export default function Header() {
         <div className={styles.menu}>
           <Link to="/recruitment" className={state === "recruitment" ? styles.active : ""}>프로젝트 구인</Link>
           <Link to="#" className={state === "정보처리기사" ? styles.active : styles.disable}>정보처리기사</Link>
-          <Link to="#" className={state === "커뮤니티" ? styles.active : styles.disable}>커뮤니티</Link>
+          <Link to="/community" className={state === "community" ? styles.active : ""}>커뮤니티</Link>
           <Link to="#" className={state === "공지사항" ? styles.active : styles.disable}>공지사항</Link>
         </div>
       </nav>
