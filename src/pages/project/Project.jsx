@@ -44,7 +44,10 @@ export default function Project() {
           </div>))}
         </div>
       </div>
-      <ChatRoom roomId={Number(id)} user={user} />
+      <div className={styles.membersContainer}>
+        <h3>대화 내용은 저장되지 않습니다</h3>
+        <ChatRoom roomId={Number(id)} user={user} />
+      </div>
     </div>
   )
 }

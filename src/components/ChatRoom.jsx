@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
 import styles from "./ChatRoom.module.css";
+import Loading from "./Loading";
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
 export default function ChatRoom({ roomId, user }) {
@@ -11,7 +12,7 @@ export default function ChatRoom({ roomId, user }) {
   const scrollRef = useRef(null);
   const bottomRef = useRef(null);
   const clientRef = useRef(null);
-  
+  const [loading, setLoading] = useState(false);
     useEffect(() => {
     if (bottomRef.current) {
       bottomRef.current.scrollIntoView({ behavior: "smooth" });
@@ -20,7 +21,7 @@ export default function ChatRoom({ roomId, user }) {
   // 입장
   useEffect(() => {
     if (!roomId) return;
-
+    setLoading(true);
     // 1) SockJS + STOMP 클라이언트 생성
     // 서버와 웹 소켓을 열 준비 (연결)
     const socket = new SockJS(`${API_BASE}/ws-chat`);
@@ -35,6 +36,7 @@ export default function ChatRoom({ roomId, user }) {
       // 서버와 연결되면 onConnect 발생
       onConnect: () => {
         console.log("Stomp 클라이언트 생성 완료");
+        setLoading(false);
         // 2) 방 구독: /topic/room/{roomId}
         // 서버한테 “나 지금 이 방 메시지 보고 싶어요!” 라고 말함
         // /topic/room/${roomId} 으로 말하는 건 모두 들을 수 있음
@@ -60,6 +62,7 @@ export default function ChatRoom({ roomId, user }) {
       },
       // 연결 끊어지면 onStompError 발생
       onStompError: (frame) => {
+        setLoading(false);
         console.error("Broker reported error: " + frame.headers["message"]);
         console.error("Additional details: " + frame.body);
       },
@@ -123,11 +126,15 @@ export default function ChatRoom({ roomId, user }) {
 
   return (
     <div className={styles.container}>
-      <h3>채팅방 #{roomId}</h3>
+      {loading && <Loading />}
+      <h3>채팅방 
+        {/* #{roomId} */}
+
+      </h3>
       <div className={styles.messages} ref={scrollRef}>
         {messages.map((m, idx) => (
           <div key={idx}>
-            <b>{m.sender === "📢" ? "📢" : `[${m.sender}]`}</b> {m.message}
+            <b style={{color : m.sender === user.name ? "var(--primary)" : ""}}>{m.sender === "📢" ? "📢" : `[${m.sender}]`}</b> {m.message}
           </div>
         ))}
         <div ref={bottomRef}></div> 
