@@ -8,6 +8,7 @@ export default function SignUp() {
     const [name , setName] = useState('');
     const [email , setEmail] = useState('');
     const [password , setPassword] = useState('');
+    const [loading , setLoading] = useState(false);
     const navigate = useNavigate();
     const isPasswordValid = password.length >= 8;
     const buttonDisabledSize = name.length > 0 && email.length > 0 && isPasswordValid;
@@ -34,6 +35,10 @@ export default function SignUp() {
     }
   return (
     <div className={styles.container}>
+       {loading && <div className={styles.loading}>
+                          <div className={styles.spinner}></div>
+                          <span> 오래 걸릴 시 오른쪽 하단 뱃지 상태를 <br /> 확인하고 새로고침을 해주세요</span>
+                        </div>}
       <div className={styles.form}>
         <h2>회원가입</h2>
         <form onSubmit={handleSubmit}>
@@ -67,6 +72,7 @@ export default function SignUp() {
       </div>
 
       <div className={styles.text}>
+        <h2> 오른쪽 밑 뱃지를 확인하여 서버 연결 완료가 뜨고 새로고침 후 이용해주세요 </h2>
         <h1> 함께 성장할 팀을 만나보세요 </h1>
         <p> 프로젝트 경험과 자격증 준비를 <br />
             한 곳에서 시작할 수 있어요. </p>

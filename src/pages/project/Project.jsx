@@ -3,9 +3,12 @@ import { useParams } from 'react-router-dom';
 import { api } from '../../api/api';
 import { handleError } from '../../api/error';
 import styles from './Project.module.css'
+import ChatRoom from '../../components/ChatRoom';
+import userStore from '../../store/user';
 
 export default function Project() {
   const { id } = useParams();
+  const {user} = userStore();
   const [project, setProject] = useState({});
 
   useEffect(() => {
@@ -26,7 +29,7 @@ export default function Project() {
     if (status === "COMPLETED") return "완료된 프로젝트입니다"
   }
   return (
-    <div>
+    <div className={styles.container}>
       <h1>{projectStatus(project.status)}</h1>
       <h3>함께하는 팀원</h3>
       <div className={styles.members}>
@@ -39,6 +42,7 @@ export default function Project() {
           <p>{member.contact ?? "선택없음"}</p>
         </div>))}
       </div>
+      <ChatRoom roomId={Number(id)} user={user} />
     </div>
   )
 }

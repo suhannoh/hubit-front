@@ -13,7 +13,7 @@ export default function My() {
   const [contact , setContact] = useState("");
   const [openApps , setOpenApps] = useState([]);
   const [closedApps , setClosedApps] = useState([]);
-  const [apps , setApps] = useState([]);
+  const [myRecruitments , setMyRecruitments] = useState([]);
   const splitDate = (date) => {
     return date.split("T")[0];
   }
@@ -32,9 +32,11 @@ export default function My() {
         }); 
         if (!data) return;
         const appList = data.apps ?? [];
-        setApps(appList);
-        setOpenApps(data.apps.filter(app => app.recruitment?.status === "OPEN"));
-        setClosedApps(data.apps.filter(app => app.recruitment?.status === "CLOSED"));
+        const myRecruitList = data.myRecruitments ?? [];
+        console.log("list" , data);
+        setOpenApps(appList.filter(app => app.recruitment?.status === "OPEN"));
+        setClosedApps(appList.filter(app => app.recruitment?.status === "CLOSED"));
+        setMyRecruitments(myRecruitList);
         setName(data.fullName ?? "");
         setPosition(data.position ?? "");
         setOneLine(data.oneLine ?? "");
@@ -45,7 +47,7 @@ export default function My() {
       }
     }
     getData();
-  },[])
+  },[user?.id])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -76,8 +78,6 @@ export default function My() {
     if (status === "REJECT") return "거절된 신청입니다"
     if (status === "WAIT") return "수락 대기중입니다"
   }
-  const myApps = apps.filter(app => app.recruitment.userId === user.id) ?? [];
-
   return (
     <div className={styles.container}>
       <div className={styles.content}>
@@ -162,14 +162,14 @@ export default function My() {
               <h2>내가 주도하는 프로젝트</h2>  
               <span>더보기</span>
             </div>
-              {myApps.length > 0 ? myApps.map((app,idx) => (
+              {myRecruitments.length > 0 ? myRecruitments.map((recr,idx) => (
                  <Link 
-              to={`/recruitment/${app.category}/${app.recruitment.recruitmentId}`}
+              to={`/recruitment/${recr.category}/${recr.recruitmentId}`}
               key={idx} className={styles.app}>
-                <h3>{app.recruitmentTitle}</h3>
+                <h3>{recr.title}</h3>
                 <div>
-                  <p>{getStatus(app.status)}</p>
-                  <span>신청날짜 - {splitDate(app.createdAt)}</span>
+                  <p>{recr.status === "OPEN" ? "모집중 " : "모집완료" }</p>
+                  <span>프로젝트 시작날짜 - {splitDate(recr.startDate)}</span>
                 </div>
               </Link> 
               )) 

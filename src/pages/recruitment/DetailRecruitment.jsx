@@ -337,10 +337,10 @@ export default function DetailRecruitment() {
   return (
     <div className={styles.container}>
       <div className={styles.content}>
+            {isClosed && <Link to={`/recruitment/project/${recruitment.projectId}`}> 프로젝트 상세페이지로 이동하기 </Link>}
         <div className={styles.title}>
           <h1>{recruitment.title}</h1>
           <div>
-            {isClosed && <Link to={`/recruitment/project/${recruitment.projectId}`}> 프로젝트 상세페이지로 이동하기 </Link>}
             {isOwner && <button disabled={isClosed} type="button" style={{opacity: isClosed ? 0.5 : 1}}
                                 onClick={() => navigate(`/recruitment/update/${recruitment.recruitmentId}`, {state: {recruitment}})}>수정</button>}
           </div>
