@@ -11,7 +11,7 @@ export default function ChatRoom({ roomId, user }) {
   const scrollRef = useRef(null);
   const bottomRef = useRef(null);
   const clientRef = useRef(null);
-
+  
     useEffect(() => {
     if (bottomRef.current) {
       bottomRef.current.scrollIntoView({ behavior: "smooth" });
