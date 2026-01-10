@@ -33,7 +33,6 @@ export default function My() {
         if (!data) return;
         const appList = data.apps ?? [];
         const myRecruitList = data.myRecruitments ?? [];
-        console.log("list" , data);
         setOpenApps(appList.filter(app => app.recruitment?.status === "OPEN"));
         setClosedApps(appList.filter(app => app.recruitment?.status === "CLOSED"));
         setMyRecruitments(myRecruitList);
@@ -52,11 +51,10 @@ export default function My() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!user?.id) {           // 혹시 모를 방어
+    if (!user?.id) {
     alert("로그인 후 이용해주세요.");
     return;
     }
-    
     try {
         await api.post("/my" , 
           {
@@ -74,10 +72,14 @@ export default function My() {
     }
   }
   const getStatus = (status) => {
-    if (status === "ACCEPT") return "승인된 프로젝트입니다"
+    if (status === "ACCEPT") return "승인된 신청입니다"
     if (status === "REJECT") return "거절된 신청입니다"
     if (status === "WAIT") return "수락 대기중입니다"
   }
+  const getRecrStatus = (status) => {
+    if (status === "OPEN") return "프로젝트 생성전"
+    if (status === "CLOSED") return "프로젝트 생성 완료"
+  } 
   return (
     <div className={styles.container}>
       <div className={styles.content}>
@@ -168,7 +170,7 @@ export default function My() {
               key={idx} className={styles.app}>
                 <h3>{recr.title}</h3>
                 <div>
-                  <p>{recr.status === "OPEN" ? "모집중 " : "모집완료" }</p>
+                  <p>{getRecrStatus(recr.status)}</p>
                   <span>프로젝트 시작날짜 - {splitDate(recr.startDate)}</span>
                 </div>
               </Link> 
@@ -186,7 +188,7 @@ export default function My() {
               key={idx} className={styles.app}>
                 <h3>{app.recruitmentTitle}</h3>
                 <div>
-                  <p>{getStatus(app.status)}</p>
+                  <p>{getStatus(app.status)} - {getRecrStatus(app.recruitment.status)}</p>
                   <span>신청날짜 - {splitDate(app.createdAt)}</span>
                 </div>
               </Link> 
@@ -207,7 +209,7 @@ export default function My() {
                 >
                   <h3>{app.recruitmentTitle}</h3>
                   <div>
-                    <p>{getStatus(app.status)}</p>
+                    <p>{getStatus(app.status)} {app.status === "ACCEPT" && "-"} {app.status === "ACCEPT"  && getRecrStatus(app.recruitment.status)}</p>
                     <span>신청날짜 - {splitDate(app.createdAt)}</span>
                   </div>
                 </Link>

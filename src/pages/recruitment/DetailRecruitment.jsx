@@ -356,7 +356,7 @@ export default function DetailRecruitment() {
     <div className={styles.container}>
       {loading && <Loading />}
       <div className={styles.content}>
-            {isClosed && <Link to={`/recruitment/project/${recruitment.projectId}`}> 프로젝트 상세페이지로 이동하기 </Link>}
+      {isClosed && <Link to={`/recruitment/project/${recruitment.projectId}`}> 프로젝트 대화창으로 이동 </Link>}
         <div className={styles.title}>
           <h1>{recruitment.title}</h1>
           <div>

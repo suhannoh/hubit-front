@@ -31,16 +31,18 @@ export default function Project() {
   return (
     <div className={styles.container}>
       <h1>{projectStatus(project.status)}</h1>
-      <h3>함께하는 팀원</h3>
-      <div className={styles.members}>
-        {(project?.members ?? []).map(member => (
-        <div key={member.memberId} className={styles.member}>
-          <p>{member.fullName ?? ""}</p>
-          <b>{member.role ?? ""}</b>
-          <a href={member.link ?? "#"} target="_blank" rel="noreferrer">링크</a>
-          <p>{member.position ?? "선택없음"}</p>
-          <p>{member.contact ?? "선택없음"}</p>
-        </div>))}
+      <div className={styles.membersContainer}>
+        <h3>함께하는 팀원</h3>
+        <div className={styles.members}>
+          {(project?.members ?? []).map(member => (
+          <div key={member.memberId} className={styles.member}>
+            <b>{member.role ?? ""}</b>
+            <p>{member.fullName ?? ""}</p>
+            <a href={member.link ?? "#"} target="_blank" rel="noreferrer">링크</a>
+            <p>{member.position ?? "선택없음"}</p>
+            <p>{member.contact ?? "선택없음"}</p>
+          </div>))}
+        </div>
       </div>
       <ChatRoom roomId={Number(id)} user={user} />
     </div>
