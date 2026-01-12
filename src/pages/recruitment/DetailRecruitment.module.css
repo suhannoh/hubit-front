@@ -19,11 +19,9 @@
 }
 .content a {
   width: max-content;
-  padding: 0.5rem 3rem;
+  padding: 0.5rem 1rem;
   border-radius: 0.5rem;
-  font-size: 1.5rem;
   cursor: pointer;
-  background: inherit;
   color: var(--text);
   display: flex;
   align-items: center;
@@ -32,7 +30,6 @@
   margin-bottom: 1rem;
   border: 1px solid var(--border);
   text-decoration: none;
-  font-weight: bold;
   background: var(--sub-primary);
 }
 .content a:hover {

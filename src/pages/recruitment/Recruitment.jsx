@@ -9,7 +9,7 @@ export default function Recruitment() {
 
   
   useEffect (() => {
-    console.log("[Project List] mounted ")
+    console.log("[Project New List] mounted ")
     const read = async () => {
     try {
       console.log(`[Project List], start fetching`)

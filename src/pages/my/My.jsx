@@ -37,8 +37,20 @@ export default function My() {
         const appList = data.apps ?? [];
         const myRecruitList = data.myRecruitments ?? [];
         setOpenApps(appList.filter(app => app.recruitment?.status === "OPEN"));
-        setClosedApps(appList.filter(app => app.recruitment?.status === "CLOSED"));
-        setMyRecruitments(myRecruitList);
+        const closedApps = appList.filter(app => app.recruitment?.status === "CLOSED");
+
+        const PROJECT_ORDER = { IN_PROGRESS: 0, NOT_STARTED: 1, COMPLETED: 2 };
+
+        const sortByProjectStatus = (a, b) => {
+        const aKey = PROJECT_ORDER[a.projectStatus ?? "NOT_STARTED"];
+        const bKey = PROJECT_ORDER[b.projectStatus ?? "NOT_STARTED"];
+        return aKey - bKey;
+      };
+
+        setClosedApps([...closedApps].sort(sortByProjectStatus));  
+        setMyRecruitments([...myRecruitList].sort(sortByProjectStatus));
+
+        // setMyRecruitments(myRecruitList);
         setName(data.fullName ?? "");
         setPosition(data.position ?? "");
         setOneLine(data.oneLine ?? "");
@@ -84,6 +96,12 @@ export default function My() {
     if (status === "OPEN") return "프로젝트 생성전"
     if (status === "CLOSED") return "프로젝트 생성 완료"
   } 
+  const projectStatus = (status) => {
+    if (status === "NOT_STARTED") return "시작전"
+    if (status === "IN_PROGRESS") return "진행중"
+    if (status === "COMPLETED") return "완료"
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.content}>
@@ -173,7 +191,7 @@ export default function My() {
               to={`/recruitment/${recr.category}/${recr.recruitmentId}`}
               key={idx} className={styles.app}>
                 <h3>{recr.title}</h3>
-                <span className={styles.status}></span>
+                <span className={styles.status}>{projectStatus(recr.projectStatus)}</span>
                 <div>
                   <p>{getRecrStatus(recr.status)}</p>
                   <span>프로젝트 시작날짜 - {splitDate(recr.startDate)}</span>
@@ -192,6 +210,7 @@ export default function My() {
               to={`/recruitment/${app.category}/${app.recruitment.recruitmentId}`}
               key={idx} className={styles.app}>
                 <h3>{app.recruitmentTitle}</h3>
+                <span className={styles.status}>{projectStatus(app.projectStatus)}</span>
                 <div>
                   <p>{getStatus(app.status)} - {getRecrStatus(app.recruitment.status)}</p>
                   <span>신청날짜 - {splitDate(app.createdAt)}</span>

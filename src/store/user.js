@@ -4,7 +4,7 @@ const userStore = create((set) => ({
   user : null,
   isLogin : false,
   fetchCheck : false,
-  darkmode: false,
+  darkmode: true,
   toggleDarkmode: () => set((state) => ({ darkmode: !state.darkmode })),
   login: (user) => set({ user , isLogin:true, fetchCheck: true }),
   logout: () => set({ user : null , isLogin:false, fetchCheck: true }),
