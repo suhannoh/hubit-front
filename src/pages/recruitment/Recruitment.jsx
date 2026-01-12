@@ -7,11 +7,15 @@ export default function Recruitment() {
   const [list , setList] = useState([]);
   const navigate = useNavigate();
 
+  
   useEffect (() => {
+    console.log("[Project List] mounted ")
     const read = async () => {
     try {
+      console.log(`[Project List], start fetching`)
       const {data} = await api.get('/recruitment' , { params : { page : 0, size : 10 }})
       setList(data.content);
+      console.log("[Project List] fetch success");
     } catch (error) {
       console.log(error);
     }

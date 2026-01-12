@@ -26,7 +26,9 @@ export default function ListRecruitment() {
   
 
   useEffect (() => {
-    setPath(pathname.split("/")[2] || "");
+    console.log(`[${pathname.split("/")[2]} List], mounted`)
+
+    setPath(pathname.split("/")[2] || ""); 
   }, [pathname]); 
     useEffect(() => {
     setPage(0);
@@ -34,6 +36,7 @@ export default function ListRecruitment() {
 
   useEffect (() => {
       const read = async () => {
+        console.log(`[${pathname.split("/")[2]} List], start fetching`)
         const allowed = ["frontend", "backend", "fullstack"];
         if (!allowed.includes(path)) return;
         try {
@@ -45,6 +48,7 @@ export default function ListRecruitment() {
             }})
           setList(data.content);
           setTotalPage(data.totalPages);
+          console.log(`[${pathname.split("/")[2]} List], fetch success`);
         } catch (error) {
           console.log(error);
         }

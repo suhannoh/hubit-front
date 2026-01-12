@@ -23,6 +23,9 @@ export default function My() {
   }
 
   useEffect(() => {
+    console.log("[My] mounted");
+    console.log("[My] start fetching");
+
     const getData = async () => {
       try {
         const {data} = await api.get("/my", {
@@ -41,6 +44,7 @@ export default function My() {
         setOneLine(data.oneLine ?? "");
         setLink(data.link ?? "");
         setContact(data.contact ?? "");
+        console.log("[My] fetch success");
       } catch (e) {
         handleError(e);
       }
@@ -169,6 +173,7 @@ export default function My() {
               to={`/recruitment/${recr.category}/${recr.recruitmentId}`}
               key={idx} className={styles.app}>
                 <h3>{recr.title}</h3>
+                <span className={styles.status}></span>
                 <div>
                   <p>{getRecrStatus(recr.status)}</p>
                   <span>프로젝트 시작날짜 - {splitDate(recr.startDate)}</span>

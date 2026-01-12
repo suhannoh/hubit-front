@@ -51,10 +51,12 @@ export default function DetailRecruitment() {
 };
   // 초기 데이터
   useEffect(() => { // 신청자
+    console.log(`[Project Detail], mounted`)
     if (!user?.id) return;
     if (!recruitment) return; 
     setLoading(true);
     const getRecruitment = async () => {
+      console.log(`[Project Detail], init`)
       try {
         const {data} = await api.get(`/recruitment/${id}`)
         setRecruitment(data);
@@ -67,10 +69,10 @@ export default function DetailRecruitment() {
         getData();
     } else {
       getData2();
-
     }
+    console.log(`[Project Detail], fetch success`);
     setLoading(false);  
-  },[id, user?.id, recruitment?.userId , recruitmentApp?.recruitAppId])
+  },[id, user?.id])
 // 작성자 정보 가져오기 
   const getData = async () => {
       try {

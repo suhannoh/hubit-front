@@ -5,9 +5,10 @@ import App from './App.jsx'
 import { HashRouter } from 'react-router-dom'
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  // <StrictMode>
     <HashRouter>
       <App />
     </HashRouter>
-  </StrictMode>,
+  // </StrictMode>
+  ,
 )

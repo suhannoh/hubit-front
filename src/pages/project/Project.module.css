@@ -7,6 +7,36 @@
   padding: 4rem;
   gap: 2rem;
 }
+.projectHandleBox {
+  display: flex;
+  justify-content: space-between;
+}
+.projectHandle {
+  display: flex;
+  gap: 0.5rem;
+}
+.projectHandleBox select {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.7rem 1rem;
+  font-size: 1rem;
+  background: var(--bg);
+  outline: none;
+  cursor: pointer;
+}
+.projectHandleBox button {
+  width: 10rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.7rem 1rem;
+  font-size: 1rem;
+  background: var(--bg);
+  cursor: pointer;
+}
+.projectHandleBox button:hover {
+  background: var(--lightbg);
+}
 .membersContainer{
   display: flex;
   flex-direction: column;

@@ -40,6 +40,7 @@ export default function NewRecriutment() {
   };
     
  useEffect(() => {
+    console.log(`[Project Detail], mounted`)
     if (recruitment) {
       console.log("UPDATE MODE");
       handleUpdateSet(recruitment);
@@ -97,7 +98,7 @@ export default function NewRecriutment() {
     setLoading(true);
     const ok = confirm(`프로젝트 ${isEdit ? "수정" : "생성"}을 완료하시겠습니까 ?`);
     if(!ok) return;
-
+    console.log(`[Project new or update], start fetching`);
     const req = {
         userId : user.id,
         author : user.name,
@@ -130,6 +131,7 @@ export default function NewRecriutment() {
         alert(`프로젝트 ${isEdit ? "수정": "생성"}이 정상적으로 완료되었습니다.`);
         navigate('/recruitment');
       } 
+      console.log(`[Project new or update], fetch success`);
     } catch (e) {
       handleError(e);
     } finally {
