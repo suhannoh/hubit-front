@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { api } from '../../api/api';
 import { handleError } from '../../api/error';
 import styles from './Project.module.css'
@@ -11,12 +11,16 @@ export default function Project() {
   const {user} = userStore();
   const [project, setProject] = useState({});
   const [projectStat , setProjectStat] = useState("");
+  const { state } = useLocation();
+  const recruitment = state ?? {};
+  console.log(recruitment); // { recruitment: ... }
 
   const getProject = async () => {
       try {
         const { data } = await api.get(`/recruitment/project/${id}/get`);
         setProject(data);
         setProjectStat(data.status);
+        console.log(data);  
       } catch(e) {
         handleError(e);
       }
@@ -25,6 +29,7 @@ export default function Project() {
   useEffect(() => {
     console.log("[Project Detail] mounted");
     getProject();
+
   }, [id])
 
   const handleChangeStatus = async () => {
@@ -54,6 +59,7 @@ export default function Project() {
   return (
     <div className={styles.container}>
       <div>
+        <h3>{recruitment.title ?? ""}</h3>
         <div className={styles.projectHandleBox}>
           <h1>{projectStatus(project.status)}</h1>
           {isOwner && 

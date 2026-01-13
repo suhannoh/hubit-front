@@ -5,6 +5,7 @@
 }
 .main {
   flex: 1;
+  min-width: 375px;
 }
 .badgeStyle {
   background: none;
@@ -60,4 +61,19 @@
 }
 .badgeStyle button:hover {
   opacity: 0.5;
+}
+
+@media (max-width: 768px) {
+  .layout {
+    min-height: 100dvh;
+  }
+  .main {
+    padding: 0 1rem;
+  }
+  .badgeStyle {
+  right: 50%;
+  transform: translateX(50%);
+  width: max-content;
+}
+
 }

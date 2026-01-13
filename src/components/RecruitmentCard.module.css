@@ -46,22 +46,15 @@
   padding: 1rem 1rem 0.2rem 0.5rem;
 }
 .title {
-  position: relative;
   font-size: 1.2rem;
   font-weight: bold;
-  margin: 0 auto;
   background: var(--lightbg);
   padding: 5px;
-}
-.title::after {
   border-bottom: 1px solid var(--border);
-  width: 200%;
-  display: block;
-  content: "";
-  position: absolute;
-  bottom: -20%;
-  left: -30%;
+  display: flex;
+  justify-content: center;
 }
+
 .author {
   font-size: 0.8rem;
   background: var(--lightbg);

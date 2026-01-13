@@ -353,12 +353,12 @@ export default function DetailRecruitment() {
   const isOwner =
   !!(user?.id && recruitment?.userId && recruitment.userId === user.id);
   const isClosed = recruitment.status === "CLOSED";
-
+  console.log(recruitment);
   return (
     <div className={styles.container}>
       {loading && <Loading />}
       <div className={styles.content}>
-      {isClosed && <Link to={`/recruitment/project/${recruitment.projectId}`}> 대화창 열기 </Link>}
+      {isClosed && <Link to={`/recruitment/project/${recruitment.projectId}`} state={recruitment}> 대화창 열기 </Link>}
         <div className={styles.title}>
           <h1>{recruitment.title}</h1>
           <div>

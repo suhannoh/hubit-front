@@ -78,9 +78,9 @@ export default function NewRecriutment() {
     setEndDate(nextEnd);
 };
 
+  const front = ["REACT", "VUE", "HTML", "CSS", "JAVASCRIPT", "TYPESCRIPT"];
+  const back = ["JAVA", "SPRING", "SPRING BOOT", "PYTHON"];
   const getCategoryByStacks = (stacks = []) => {
-    const front = ["REACT", "VUE", "HTML", "CSS", "JAVASCRIPT", "TYPESCRIPT"];
-    const back = ["JAVA", "SPRING", "SPRING BOOT", "PYTHON"];
 
       const hasFront = stacks.some(item => front.includes(item));
       const hasBack = stacks.some(item => back.includes(item));
@@ -162,7 +162,8 @@ export default function NewRecriutment() {
           <ul className={styles.stack_list}>
             {stackList.map((stack, idx) => (
               <li key={idx} onClick={() => handleClick(stack)}
-                className={stacks.includes(stack) ? styles.active : ""}>{stack}</li>
+                className={stacks.includes(stack) && front.includes(stack)  ? styles.front :
+                stacks.includes(stack) && back.includes(stack) && styles.back}>{stack}</li>
             ))}
           </ul>
           <label > 카테고리 </label>

@@ -92,8 +92,11 @@
 .date_box input {
   width: 100%;
 }
-.active {
+.front {
   background: var(--primary) !important;
+}
+.back {
+  background: var(--sub-primary) !important;
 }
 .stack_list {
   display: flex;

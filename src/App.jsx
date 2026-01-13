@@ -14,6 +14,8 @@ import AuthInitializer from './layout/AuthInitializer'
 import Project from './pages/project/Project'
 import Test from './pages/home/Test'
 import Community from './pages/chat/Community'
+import Certification from './pages/certification/Certification'
+import CertSite from './pages/certification/CertSite'
 
 function App() {
 
@@ -28,6 +30,8 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/recruitment" element={<Recruitment />} />
             <Route path="/recruitment/:category" element={<ListRecruitment />} />
+            <Route path="/certification" element={<Certification />} />
+            <Route path="/certification/site" element={<CertSite />} />
             {/* 로그인 필요 영역 !  */}
             <Route element={<ProtectedRoute />} >
               <Route path="/community" element={<Community />} />

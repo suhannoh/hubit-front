@@ -3,7 +3,7 @@ import userStore from '../../store/user';
 import styles from './My.module.css'
 import { handleError } from '../../api/error';
 import { api } from '../../api/api';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, useLocation } from 'react-router-dom';
 export default function My() {
   const {user} = userStore();
   const [name , setName] = useState("");
@@ -14,6 +14,8 @@ export default function My() {
   const [openApps , setOpenApps] = useState([]);
   const [closedApps , setClosedApps] = useState([]);
   const [myRecruitments , setMyRecruitments] = useState([]);
+  const [myPageStatus , setMyPageStatus] = useState("info");
+  const {state} = useLocation();
   const splitDate = (date) => {
     return date.split("T")[0];
   }
@@ -21,11 +23,15 @@ export default function My() {
   if (!user || !user.id) {
     return <Navigate to="/login" replace />;
   }
+  useEffect(() => {
+    if (state) {
+      setMyPageStatus(state);
+    }
+  },[state]);
 
   useEffect(() => {
     console.log("[My] mounted");
     console.log("[My] start fetching");
-
     const getData = async () => {
       try {
         const {data} = await api.get("/my", {
@@ -104,6 +110,15 @@ export default function My() {
 
   return (
     <div className={styles.container}>
+      <aside>
+        <nav className={styles.menu}>
+          <button onClick={() => setMyPageStatus("info")} className={myPageStatus === "info" && styles.active}> 내 정보 </button>
+          <button onClick={() => setMyPageStatus("project")} className={myPageStatus === "project" && styles.active}> 내 프로젝트 </button>
+          <button onClick={() => setMyPageStatus("app")} className={myPageStatus === "app" && styles.active}> 참여한 프로젝트 현황 </button>
+          <button onClick={() => setMyPageStatus("recruitment")} className={myPageStatus === "recruitment" && styles.active}> 최근 신청 현황 </button>
+        </nav>
+      </aside>
+      {myPageStatus === "info" && (
       <div className={styles.content}>
       <div className={styles.my}>
         <section className={styles.info}>
@@ -179,27 +194,32 @@ export default function My() {
         </div>
       </form> 
       </div>
+      )}
 
-        <section className={styles.help_box}>
-          <div className={styles.help}>
-            <div className={styles.help__title}>
-              <h2>내가 주도하는 프로젝트</h2>  
-              <span>더보기</span>
+      {myPageStatus !== "info" && <section className={styles.help_box}>
+      {myPageStatus === "project" && 
+      <div className={styles.help}>
+        <div className={styles.help__title}>
+          <h2>내가 주도하는 프로젝트</h2>  
+          <span>더보기</span>
+        </div>
+          {myRecruitments.length > 0 ? myRecruitments.map((recr,idx) => (
+             <Link 
+          to={`/recruitment/${recr.category}/${recr.recruitmentId}`}
+          key={idx} className={styles.app}>
+            <h3>{recr.title}</h3>
+            <span className={styles.status}>{projectStatus(recr.projectStatus)}</span>
+            <div>
+              <p>{getRecrStatus(recr.status)}</p>
+              <span>프로젝트 시작날짜 - {splitDate(recr.startDate)}</span>
             </div>
-              {myRecruitments.length > 0 ? myRecruitments.map((recr,idx) => (
-                 <Link 
-              to={`/recruitment/${recr.category}/${recr.recruitmentId}`}
-              key={idx} className={styles.app}>
-                <h3>{recr.title}</h3>
-                <span className={styles.status}>{projectStatus(recr.projectStatus)}</span>
-                <div>
-                  <p>{getRecrStatus(recr.status)}</p>
-                  <span>프로젝트 시작날짜 - {splitDate(recr.startDate)}</span>
-                </div>
-              </Link> 
-              )) 
-              : ( <p>내가 만든 프로젝트가 없습니다.</p> )} 
-          </div>
+          </Link> 
+          )) 
+          : ( <p>내가 만든 프로젝트가 없습니다.</p> )} 
+      </div>
+        }
+
+        {myPageStatus === "app" &&
           <div className={styles.help}>
             <div className={styles.help__title}>
               <h2>참여한 프로젝트</h2>  
@@ -219,6 +239,8 @@ export default function My() {
               )) 
               : <p>참여한 프로젝트가 없습니다.</p> } 
           </div>
+          }
+          {myPageStatus === "recruitment" &&  
           <div className={styles.help}>
             <div className={styles.help__title}>
               <h2>최근 지원 현황</h2>  
@@ -243,7 +265,8 @@ export default function My() {
             )
         }
           </div>
-        </section>
+          }
+        </section>}
     </div>
   )
 }

@@ -36,12 +36,11 @@ export default function Recruitment() {
       </section>
       <section className={styles.recruitment_grid}>
           <div className={styles.hero}>
-            <h1> 흥미로운 카테고리를 선택하여 프로젝트를 진행해보세요 </h1>
-            <p><span> 프로젝트를 함께할 팀원을 구하시나요 ? </span>
+            <h1> 흥미로운 카테고리를 선택하여 <br className='mobile_br'/> 프로젝트를 진행해보세요 </h1>
+            <p><span> 프로젝트를 함께할 팀원을 구하시나요 ?</span><br className='mobile_br'/>
               <Link 
               to={"/recruitment/new"} 
-              className={styles.link}
-                    > 프로젝트 만들기</Link></p>
+              className={styles.link} >프로젝트 만들기</Link></p>
           </div>
           <div className={styles.grid}>
             <article onClick={() => navigate("/recruitment/frontend")}>
