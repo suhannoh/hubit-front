@@ -11,7 +11,7 @@ export default function Home() {
       <div className={styles.menu}>
         <Link className={styles.link} to="/recruitment"> 프로젝트 찾으러 가기</Link>
         <Link className={styles.link} to="/my"  state={"project"}> 진행중인 프로젝트 </Link>
-        <Link className={styles.link} to="/certificate"> 정보처리기사 공부 </Link>
+        <Link className={styles.link} to="/certification"> 정보처리기사 공부 </Link>
         <Link className={styles.link} to="/test"> 간단한 테스트 순서</Link>
       </div>
     </div>

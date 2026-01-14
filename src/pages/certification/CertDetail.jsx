@@ -52,7 +52,7 @@ export default function CertDetail() {
     <div className={styles.container}>
       {loading && <Loading />}
       {datas.map((section, idx) => (
-      <div key={idx}>
+      <div key={idx} className={styles.section}>
         <h2 className={styles.title}>{idx+1}. {section.section}</h2>
 
         {section.items.map((item, i) => (
@@ -64,7 +64,7 @@ export default function CertDetail() {
               <p className={styles.mnemonic}>암기: {item.mnemonic}</p>
             )}
 
-            <p className={styles.summary}>{item.summary}</p>
+            <p className={styles.summary}><span>{item.summary}</span></p>
 
             <ul>
               {item.details.map((detail, j) => (

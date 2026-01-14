@@ -61,6 +61,7 @@ export default function ListRecruitment() {
       <div className={styles.hero}>
         <h1>{path}</h1>
         <p><span> 프로젝트를 함께할 팀원을 구하시나요 ? </span>
+             <br className='mobile_br'/>
                       <Link 
                       to={"/recruitment/new"} 
                       className={styles.link}

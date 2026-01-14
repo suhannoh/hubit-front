@@ -24,6 +24,7 @@ export default function SignUp() {
         email,
         password
       }
+      setLoading(true);
       try {
         await api.post('/signup' , user);
         alert("회원가입이 정상적으로 완료되었습니다.")
@@ -32,6 +33,7 @@ export default function SignUp() {
         handleError(e);
       } finally {
         setIsDisabled(true);
+        setLoading(false);
       }
     }
   return (
@@ -70,7 +72,7 @@ export default function SignUp() {
       </div>
 
       <div className={styles.text}>
-        <h2> 오른쪽 밑 뱃지를 확인하여 서버 연결 완료가 뜨고 새로고침 후 이용해주세요 </h2>
+        <h2> 오른쪽 밑 뱃지를 확인하여 서버 연결 완료가 <br className='mobile_br'/> 뜨고 새로고침 후 이용해주세요 </h2>
         <h1> 함께 성장할 팀을 만나보세요 </h1>
         <p> 프로젝트 경험과 자격증 준비를 <br />
             한 곳에서 시작할 수 있어요. </p>

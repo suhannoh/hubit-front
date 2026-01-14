@@ -16,8 +16,10 @@ export default function Header() {
 
   const navigate = useNavigate();
   const handleLogout = async () => {
+    
     const result = confirm("정말 로그아웃 하시겠습니까 ?");
     if(result) {
+      setMobileMenu(false);
       navigate('/');
       await api.get("/logout")
       logout();
@@ -53,9 +55,11 @@ export default function Header() {
                   onClick={() => setMobileMenu(false)}>공지사항</Link>
           </div>
           <div className={styles.mobile_login}>
-            {!isLogin ? <Link to="/login">로그인</Link>
+            {!isLogin ? <Link to="/login"
+                              onClick={() => setMobileMenu(false)}>로그인</Link>
                       : <div className={styles.mobile_menu_me}>
-                          <Link to="/my" className={styles.user}> {user.name}</Link>
+                          <Link to="/my" className={styles.user}  
+                                onClick={() => setMobileMenu(false)}> {user.name}</Link>
                         <div className={styles.logout__menu} onClick={handleLogout}>
                             <svg xmlns="http://www.w3.org/2000/svg" 
                               width="22" height="24" viewBox="0 0 24 24" className={styles.logout}
