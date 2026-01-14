@@ -1,40 +1,56 @@
-import React from 'react'
 import { useParams } from 'react-router-dom'
-import { cert1Data } from '../../store/cert1';
 import styles from './CertDetail.module.css'
-import { cert2Data } from '../../store/cert2';
-import { cert3Data } from '../../store/cert3';
-import { cert4Data } from '../../store/cert4';
-import { cert5Data } from '../../store/cert5';
-import { cert6Data } from '../../store/cert6';
-import { cert7Data } from '../../store/cert7';
-import { cert8Data } from '../../store/cert8';
-import { cert9Data } from '../../store/cert9';
-import { cert10Data } from '../../store/cert10';
-import { cert11Data } from '../../store/cert11';
-import { cert12Data } from '../../store/cert12';
+import { useEffect, useState } from 'react';
+import Loading from '../../components/Loading';
+const loaders = {
+  1: () => import('../../store/cert1').then(m => m.cert1Data),
+  2: () => import('../../store/cert2').then(m => m.cert2Data),
+  3: () => import('../../store/cert3').then(m => m.cert3Data),
+  4: () => import('../../store/cert4').then(m => m.cert4Data),
+  5: () => import('../../store/cert5').then(m => m.cert5Data),
+  6: () => import('../../store/cert6').then(m => m.cert6Data),
+  7: () => import('../../store/cert7').then(m => m.cert7Data),
+  8: () => import('../../store/cert8').then(m => m.cert8Data),
+  9: () => import('../../store/cert9').then(m => m.cert9Data),
+  10: () => import('../../store/cert10').then(m => m.cert10Data),
+  11: () => import('../../store/cert11').then(m => m.cert11Data),
+  12: () => import('../../store/cert12').then(m => m.cert12Data),
+};
 
-const data_number = {
-  1: cert1Data,
-  2: cert2Data,
-  3: cert3Data,
-  4 : cert4Data,
-  5 : cert5Data,
-  6: cert6Data,
-  7: cert7Data,
-  8: cert8Data,
-  9 : cert9Data,
-  10 : cert10Data,
-  11 : cert11Data,
-  12 : cert12Data
-}
 export default function CertDetail() {
   const {detailNumber} = useParams();
+  // const key = Number(detailNumber);
+  // const datas = data_number[key] || [];
+
+  const [datas, setDatas] = useState([]);
+  const [loading, setLoading] = useState(false);
   const key = Number(detailNumber);
-  const datas = data_number[key] || [];
+  const loader = loaders[key];
+
+  useEffect(() => {
+    
+    if (!loader) {
+      console.log("data not found");
+      return;
+    }
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setLoading(true);
+    loader()
+      .then((data) => {
+        setDatas(data ?? []);
+      })
+      .catch((err) => {
+        console.error('cert data load error', err);
+        setDatas([]);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [loader]);
 
   return (
     <div className={styles.container}>
+      {loading && <Loading />}
       {datas.map((section, idx) => (
       <div key={idx}>
         <h2 className={styles.title}>{idx+1}. {section.section}</h2>
