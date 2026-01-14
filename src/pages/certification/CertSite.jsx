@@ -25,7 +25,7 @@ export default function CertSite() {
       <div className={styles.cert_site}>
         <a href="https://www.edugamja.com/">정처기 감자</a>
         <p> CBT 처럼 문제를 제공하여 어디서든 편리하게 문제 풀이를 해볼 수 있음</p>
-        <b>Tip : 코드문제는 볼펜으로 직접 풀어보는 게 좋기에 풀어보고 안 풀릴 때 보는 걸 추천</b>
+        <b>Tip : 시험 1주 전부터 수시로 문제풀이를 같이 하면 좋습니다 </b>
       </div>
     </nav>
   )

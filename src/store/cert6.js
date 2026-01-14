@@ -1,0 +1,564 @@
+export const cert6Data = [
+  {
+    section: "기본 문법 및 자료형",
+    items: [
+      {
+        title: "문자 vs. 문자열",
+        mnemonic: null,
+        summary: "[C][C++][Java]에서 문자와 문자열의 표기 차이",
+        details: [
+          "문자 하나: 작은 따옴표('') 사용 (예: 'A')",
+          "문자열: 큰 따옴표(\"\") 사용 (예: \"ABC\")",
+          "따옴표는 '문자냐 문자열이냐'를 구분하기 위한 표기일 뿐, 출력 결과에는 포함되지 않는다.",
+          "출력 결과에 따옴표를 같이 쓰면 오답이 될 수 있으므로 주의"
+        ]
+      },
+      {
+        title: "포인터 변수",
+        mnemonic: null,
+        summary: "주소를 저장하는 변수로, C/C++에서 많이 사용",
+        details: [
+          "변수 선언 시 데이터 타입 뒤에 *를 붙이면 포인터 변수 (예: int *p;)",
+          "변수명 앞에 &를 붙이면 해당 변수의 주소를 의미 (예: &a)",
+          "포인터가 가리키는 주소에 들어있는 값은 *로 가져옴 (예: *p)",
+          "배열에서 a[0]은 0번지 값, &a[0]은 0번지 주소",
+          "printf(\"%s\")로 문자열 출력 시 NULL 문자 바로 앞까지 출력",
+          "예) char b[16] = \"hello world\"; printf(\"%s\", &b[6]); → world"
+        ]
+      },
+      {
+        title: "주요 자료형 (Java / Python)",
+        mnemonic: null,
+        summary: "자바와 파이썬에서 자주 사용하는 컬렉션 자료형",
+        details: [
+          "Java: HashSet, ArrayList, LinkedList, HashMap",
+          "Python: Set, List, Tuple, Dictionary"
+        ]
+      },
+      {
+        title: "HashSet (Java)",
+        mnemonic: null,
+        summary: "중복을 허용하지 않고 순서가 없는 집합 자료형",
+        details: [
+          "중복값 무시",
+          "순서 보장 X",
+          "주요 메서드: add(값), remove(값)"
+        ]
+      },
+      {
+        title: "ArrayList (Java)",
+        mnemonic: null,
+        summary: "순서가 중요한 리스트 자료형",
+        details: [
+          "인덱스로 원소 접근 가능",
+          "동적 배열 구조",
+          "주요 메서드: add(값), add(인덱스, 값), remove(인덱스), get(인덱스)"
+        ]
+      },
+      {
+        title: "HashMap (Java)",
+        mnemonic: null,
+        summary: "키-값 쌍으로 데이터를 저장하는 Map 자료형",
+        details: [
+          "Key-Value 구조",
+          "주요 메서드: put(키, 값), remove(키), get(키)"
+        ]
+      },
+      {
+        title: "Set / List / Dictionary (Python)",
+        mnemonic: null,
+        summary: "파이썬의 대표 컬렉션 자료형",
+        details: [
+          "Set: 중복값 무시, 순서 없음, add(값), remove(값)",
+          "List: 순서 있음, append(값), insert(인덱스, 값), remove(값)",
+          "Dictionary: 키-값 쌍, dict[키] = 값, del dict[키]"
+        ]
+      },
+      {
+        title: "리스트 인덱스 (Python)",
+        mnemonic: null,
+        summary: "양수/음수 인덱스로 앞/뒤에서 접근",
+        details: [
+          "양수 인덱스: [0], [1], ..., [n-2], [n-1]",
+          "음수 인덱스: [-n], [-(n-1)], ..., [-2], [-1]",
+          "음수 인덱스는 뒤에서부터 역순으로 접근"
+        ]
+      },
+      {
+        title: "리스트 슬라이싱 (Python)",
+        mnemonic: null,
+        summary: "시작:끝:스텝 형태로 부분 리스트 추출",
+        details: [
+          "시작 인덱스 생략 시 처음부터",
+          "종료 인덱스는 '전' 인덱스까지만 포함, 생략 시 끝까지",
+          "스텝 생략 시 1",
+          "예) a = [7, 6, 3, 4, 0]; a[:4:2] → [7, 3]",
+          "예) a = \"Hello Phython\"; b = a[0:3]; c = a[-4:-1]; b + c → Heltho"
+        ]
+      },
+      {
+        title: "식별자 표기법",
+        mnemonic: null,
+        summary: "헝가리안, 스네이크, 카멜, 파스칼 표기법",
+        details: [
+          "헝가리안 표기법: 식별자 앞에 자료형/역할을 붙임 (예: strName, iCount)",
+          "스네이크 표기법: 여러 단어를 언더바(_)로 구분 (예: user_name)",
+          "카멜 표기법: 첫 단어는 소문자, 이후 단어 첫 글자 대문자 (예: userName)",
+          "파스칼 표기법: 모든 단어의 첫 글자는 대문자 (예: UserName)"
+        ]
+      }
+    ]
+  },
+
+  {
+    section: "비트·시프트·연산자",
+    items: [
+      {
+        title: "시프트 연산자",
+        mnemonic: null,
+        summary: "<<, >>를 이용해 비트를 좌/우로 이동",
+        details: [
+          "<< : 우측의 숫자만큼 왼쪽으로 비트 이동 (값이 2의 n제곱 배 증가)",
+          ">> : 우측의 숫자만큼 오른쪽으로 비트 이동 (값이 2의 n제곱 배 감소)",
+          "예) 6 << 1 : 6은 2진수 110 → 왼쪽으로 1칸 이동 → 1100 → 10진수 12"
+        ]
+      },
+      {
+        title: "10진수 → 2진수 변환",
+        mnemonic: null,
+        summary: "2로 나누고 나머지를 아래에서 위로 읽는다",
+        details: [
+          "1) 2로 나누고 몫과 나머지를 기록",
+          "2) 몫이 0이 될 때까지 반복",
+          "3) 나머지를 '아래에서 위로' 읽으면 2진수",
+          "예) 5: 5/2=2(1), 2/2=1(0), 1/2=0(1) → 101"
+        ]
+      },
+      {
+        title: "2진수 → 10진수 변환",
+        mnemonic: null,
+        summary: "각 자리의 2의 거듭제곱을 더해 계산",
+        details: [
+          "오른쪽부터 1, 2, 4, 8, 16, 32,... 배정",
+          "1인 자리만 골라서 합산",
+          "예) 10100 = 16,8,4,2,1 순으로 보면 10100 → 16 + 4 = 20"
+        ]
+      },
+      {
+        title: "비트 연산자",
+        mnemonic: null,
+        summary: "&, |, ^, ~ 를 이용한 비트 단위 연산",
+        details: [
+          "& : 같은 비트가 모두 1이면 1",
+          "| : 같은 비트 값 중 하나라도 1이면 1",
+          "^ : 같은 비트 값이 서로 다르면 1 (XOR)",
+          "~ : 모든 비트 반전",
+          "예) 5(101) & 6(110) → 100 → 4",
+          "예) 30(11110) & 15(01111) → 01110 → 14"
+        ]
+      },
+      {
+        title: "증감 연산자",
+        mnemonic: null,
+        summary: "전위/후위 증감에 따른 동작 차이",
+        details: [
+          "++x / --x : 값을 먼저 증감시키고, 그 다음에 사용",
+          "x++ / x-- : 값을 먼저 사용하고, 그 다음에 증감"
+        ]
+      }
+    ]
+  },
+
+  {
+    section: "입출력과 포맷",
+    items: [
+      {
+        title: "출력 함수",
+        mnemonic: null,
+        summary: "C/C++/Java/Python의 기본 출력 방법",
+        details: [
+          "C: printf(\"Hello World\");, printf(\"Hello\\nWorld\");, printf(\"%d\", a);",
+          "C++: std::cout << \"Hello\" << endl << \"World\";",
+          "Java: System.out.print(\"Hello\\nWorld\");, System.out.println(\"Nana\");",
+          "Python: print('Hello', end=''); print('World');  // 마지막에 print()만 쓰면 개행"
+        ]
+      },
+      {
+        title: "포맷 문자열(서식 지정자)",
+        mnemonic: null,
+        summary: "서식 지정자 %c, %s, %d, %x, %o, %f 등",
+        details: [
+          "%c : 문자",
+          "%s : 문자열",
+          "%d : 10진수 정수",
+          "%x : 16진수",
+          "%o : 8진수",
+          "%f : 실수 (기본 소수점 6자리)",
+          "%[전체자리수].[소수점]f : 자리수를 지정하는 실수 출력",
+          "예) float a = 1.2; \"%.2f\" → 1.20, \"%7.3f\" →   1.200"
+        ]
+      },
+      {
+        title: "입력 함수",
+        mnemonic: null,
+        summary: "C/C++/Java/Python의 기본 입력 방법",
+        details: [
+          "C:",
+          " - scanf(\"%c %d\", &a, &b);  // 문자, 정수 (문자열이 아니면 & 필요)",
+          " - scanf(\"%s\", c);  // 문자열은 & 없이 사용",
+          "",
+          "C++:",
+          " - std::cin >> a;",
+          "",
+          "Java:",
+          " - Scanner sc = new Scanner(System.in);",
+          " - s = sc.nextLine();  // 문자열 입력",
+          " - i = sc.nextInt();   // 정수 입력",
+          " - f = sc.nextFloat(); // 실수 입력",
+          "",
+          "Python:",
+          " - s = input()  // 문자열 입력",
+          " - s = eval(s)  // 입력값을 숫자로 변환할 때 eval 사용 (시험 포인트 기준 설명)"
+        ]
+      }
+    ]
+  },
+
+  {
+    section: "제어문과 기본 문법",
+    items: [
+      {
+        title: "if문",
+        mnemonic: null,
+        summary: "조건에 따라 분기하는 기본 제어문",
+        details: [
+          "C/C++/Java: if (조건) { ... } else { ... }",
+          "Python:",
+          "if 조건:",
+          "    ...",
+          "elif 조건:",
+          "    ...",
+          "else:",
+          "    ..."
+        ]
+      },
+      {
+        title: "switch문",
+        mnemonic: null,
+        summary: "여러 분기 중 하나를 선택하는 제어문",
+        details: [
+          "해당하는 case가 있는 경우:",
+          " - break를 만나면 switch 문 종료",
+          " - break가 없으면 아래 case까지 계속 실행 (fall-through)",
+          "해당하는 case가 없는 경우:",
+          " - default 실행",
+          " - case, default 모두 없으면 아무것도 실행되지 않음"
+        ]
+      },
+      {
+        title: "for문",
+        mnemonic: null,
+        summary: "반복 실행을 위한 기본 루프 문법",
+        details: [
+          "C/C++/Java: for (초깃값; 조건; 증감) { 명령문; }",
+          "Python:",
+          " - for 변수 in range(시작값, 끝값):  // 시작값 ~ (끝값-1)",
+          " - for 변수 in range(반복횟수):  // 0 ~ (반복횟수-1)"
+        ]
+      },
+      {
+        title: "구조체",
+        mnemonic: null,
+        summary: "기본 타입들을 묶어 새로운 자료형을 정의",
+        details: [
+          "C/C++에서 struct 키워드로 정의",
+          "여러 변수를 그룹화해 하나의 타입으로 사용"
+        ]
+      },
+      {
+        title: "열거체",
+        mnemonic: null,
+        summary: "정수형 상수에 이름을 붙여 사용",
+        details: [
+          "C/C++에서 enum 키워드로 선언",
+          "초깃값이 없으면 0부터 차례대로 정수 값이 할당"
+        ]
+      },
+      {
+        title: "루프 제어 명령문",
+        mnemonic: null,
+        summary: "반복문 흐름을 제어하는 명령",
+        details: [
+          "break : 반복문 즉시 중지",
+          "continue : 아래 구문을 실행하지 않고 다음 반복으로 넘어감"
+        ]
+      }
+    ]
+  },
+
+  {
+    section: "클래스와 객체지향 문법",
+    items: [
+      {
+        title: "클래스 정의",
+        mnemonic: null,
+        summary: "C++/Java/Python에서 클래스 정의 방식의 차이",
+        details: [
+          "C++: private: 이후는 해당 접근 제어자가 계속 적용",
+          "Java: 변수/메서드 하나하나에 접근 제어자를 명시해야 함",
+          "Python: 메서드 첫 번째 매개변수로 self를 사용"
+        ]
+      },
+      {
+        title: "접근 제어자",
+        mnemonic: null,
+        summary: "public, protected, default, private",
+        details: [
+          "public (+) : 외부 모든 클래스에서 접근 가능",
+          "protected (#) : 같은 패키지, 하위 클래스에서 접근 가능",
+          "default (~) : 자바 전용, 접근 제어자 생략 시 같은 패키지 내에서 접근 가능",
+          "private (-) : 같은 클래스 내에서만 접근 가능"
+        ]
+      },
+      {
+        title: "자신 클래스 참조(this / self)",
+        mnemonic: null,
+        summary: "현재 객체 자신을 가리키는 키워드",
+        details: [
+          "C++: this->변수명, this->함수명(매개변수);",
+          "Java: this.변수명, this.함수명(매개변수);",
+          "Python: self.변수명, self.함수명(매개변수)"
+        ]
+      },
+      {
+        title: "생성자",
+        mnemonic: null,
+        summary: "객체 생성 시 자동으로 호출되는 메서드",
+        details: [
+          "C++/Java: 클래스명과 동일한 이름의 메서드가 생성자",
+          "Python: __init__ 메서드를 생성자로 사용"
+        ]
+      },
+      {
+        title: "소멸자",
+        mnemonic: null,
+        summary: "객체의 수명이 끝날 때 호출되는 메서드",
+        details: [
+          "C++: 클래스명과 동일한 이름에 ~를 붙이면 소멸자",
+          "Java: finalize() 메서드 사용",
+          "Python: __del__ 메서드 사용"
+        ]
+      },
+      {
+        title: "상속",
+        mnemonic: null,
+        summary: "상위 클래스의 변수와 메서드를 하위 클래스가 물려받는 것",
+        details: [
+          "기존 코드를 재사용하고 확장하기 위한 핵심 개념",
+          "상속 관계를 통해 계층 구조 형성"
+        ]
+      },
+      {
+        title: "상속 문법",
+        mnemonic: null,
+        summary: "언어별 상속 선언 방식",
+        details: [
+          "C++: class 자식클래스 : public 부모클래스 { };",
+          "Java: class 자식클래스 extends 부모클래스 { };",
+          "Python: class 자식클래스(부모클래스):"
+        ]
+      },
+      {
+        title: "오버로딩",
+        mnemonic: null,
+        summary: "같은 이름의 메서드를 매개변수 형태만 다르게 여러 개 정의",
+        details: [
+          "메서드 이름은 같지만 매개변수 타입/개수가 다른 메서드",
+          "컴파일 타임에 어떤 메서드를 호출할지 결정"
+        ]
+      },
+      {
+        title: "오버라이딩",
+        mnemonic: null,
+        summary: "하위 클래스에서 상위 클래스 메서드를 재정의",
+        details: [
+          "C++: virtual 키워드가 필요 (부모/자식 중 하나라도 있으면 오버라이딩 가능)",
+          "Java/Python: 같은 시그니처의 메서드를 재정의하여 동작 변경"
+        ]
+      },
+      {
+        title: "상위 클래스 접근",
+        mnemonic: null,
+        summary: "부모 클래스의 메서드를 명시적으로 호출",
+        details: [
+          "C++: 부모클래스::메서드명()",
+          "Java: super.메서드명(), super()로 상위 클래스 생성자 호출",
+          "Python: super().메서드명()"
+        ]
+      },
+      {
+        title: "추상 클래스",
+        mnemonic: null,
+        summary: "미구현 메서드를 포함하고, 자식 클래스에서 구현하도록 강제하는 클래스",
+        details: [
+          "일부 메서드는 구현, 일부는 추상 메서드로 남겨둠",
+          "공통 인터페이스를 정의하는 용도"
+        ]
+      },
+      {
+        title: "추상 클래스 구현 방법",
+        mnemonic: null,
+        summary: "언어별 추상 메서드 정의 방식",
+        details: [
+          "C++: 메서드 뒤에 = 0을 붙이면 순수 가상 함수",
+          "Java: 클래스/메서드 앞에 abstract 키워드 사용",
+          "Python: 메서드 내부에 pass를 사용하여 구현 미루기 (또는 abc 모듈 사용)"
+        ]
+      },
+      {
+        title: "인터페이스 (Java)",
+        mnemonic: null,
+        summary: "추상 메서드와 상수만을 멤버로 가지는 구조",
+        details: [
+          "다형성을 극대화하기 위한 문법",
+          "interface 키워드로 정의",
+          "implements 키워드로 구현"
+        ]
+      }
+    ]
+  },
+
+  {
+    section: "프로그래밍 언어 분류 및 구현 방식",
+    items: [
+      {
+        title: "프로그래밍 언어 분류 (실행 방식)",
+        mnemonic: null,
+        summary: "명령형, 객체지향, 함수형, 논리형 언어로 분류",
+        details: [
+          "1. 명령형(절차형) 언어: 명령들이 순차적으로 실행 (포코파씨알베)",
+          "   예: FORTRAN, COBOL, PASCAL, C, ALGOL, BASIC",
+          "2. 객체지향 언어: 객체 간 메시지 통신을 이용",
+          "   예: Java, C++",
+          "3. 함수형 언어: 수학 수식 같은 함수들로 구성 (리하)",
+          "   예: LISP, Haskell",
+          "4. 논리형 언어: 논리 문장을 기반으로 표현",
+          "   예: Prolog"
+        ]
+      },
+      {
+        title: "프로그래밍 구현 기법",
+        mnemonic: null,
+        summary: "컴파일, 인터프리터, 혼합형 방식",
+        details: [
+          "1) 컴파일 방식: 고급 언어를 기계어로 번역 후 실행",
+          "   예: FORTRAN, PASCAL, C, C++",
+          "2) 인터프리터 방식: 명령문을 한 줄씩 번역 및 실행",
+          "   예: BASIC, LISP, PHP, Perl, Prolog",
+          "3) 혼합형 방식: 컴파일로 중간 언어 생성 후 인터프리터 실행",
+          "   예: Java (바이트코드 + JVM)"
+        ]
+      },
+      {
+        title: "절차적 프로그래밍 언어",
+        mnemonic: null,
+        summary: "명령을 순서대로 실행하는 전통적인 언어들",
+        details: [
+          "FORTRAN: 과학 기술용, 고급 수학 함수 제공, 컴파일 방식",
+          "C 언어: 유닉스 OS용 언어, 시스템 프로그래밍에 많이 사용",
+          "ALGOL: 알고리즘 연구·개발 목적",
+          "BASIC: 교육용 언어, 인터프리터 방식"
+        ]
+      },
+      {
+        title: "객체지향 프로그래밍 언어",
+        mnemonic: "씨씨자델",
+        summary: "객체 지향 개념을 도입한 대표 언어들",
+        details: [
+          "C++: C에 객체지향 개념 추가, 컴파일 방식",
+          "C#: MS에서 개발, Unsafe Code 등으로 상호 운용성 확보",
+          "Java: 웹 애플리케이션 개발에 많이 사용",
+          "Delphi: 파스칼 문법 기반, Windows 환경 프로그래밍에 활용"
+        ]
+      },
+      {
+        title: "스크립트 언어",
+        mnemonic: "피피피자스",
+        summary: "주로 인터프리터 방식으로 동작하는 언어",
+        details: [
+          "PHP: 동적 웹페이지용, 자체 인터프리터 제공",
+          "Perl: 실용성을 모토로 한 언어, 인터프리터",
+          "Python",
+          "JavaScript"
+        ]
+      },
+      {
+        title: "선언형 언어",
+        mnemonic: null,
+        summary: "무엇을 할 것인가를 선언적으로 표현하는 언어",
+        details: [
+          "1. 함수형 언어:",
+          " - LISP: 수학 표기법 표현 목적",
+          " - Haskell: 패턴 매칭, 커링, 조건제시법 등의 기능",
+          "2. 논리형 언어:",
+          " - Prolog: 논리식을 기반으로 인공지능, 자연어 처리에 사용",
+          "3. 특수 분야 언어:",
+          " - SQL: DBMS 관리를 위한 질의어"
+        ]
+      }
+    ]
+  },
+
+  {
+    section: "객체지향 개념과 라이브러리",
+    items: [
+      {
+        title: "객체지향 프로그래밍의 구성요소",
+        mnemonic: "객클메 / 개속메",
+        summary: "객체, 클래스, 메서드로 구성",
+        details: [
+          "객체: 개체 + 속성 + 메서드로 이루어진 인스턴스 (개속메)",
+          "클래스: 객체를 표현하는 추상 데이터 타입",
+          "메서드: 객체 간 통신을 담당하는 함수"
+        ]
+      },
+      {
+        title: "라이브러리",
+        mnemonic: null,
+        summary: "효율적인 개발을 위해 모아둔 프로그램 집합",
+        details: [
+          "여러 프로그램에서 재사용할 수 있는 코드 모음",
+          "모듈 + 패키지를 총칭하는 개념"
+        ]
+      },
+      {
+        title: "라이브러리의 구성",
+        mnemonic: "도설샘",
+        summary: "도움말, 설치 파일, 샘플 코드",
+        details: [
+          "1. 도움말 (문서)",
+          "2. 설치 파일",
+          "3. 샘플 코드"
+        ]
+      },
+      {
+        title: "라이브러리의 모듈",
+        mnemonic: null,
+        summary: "변수, 함수 등을 모아둔 파일 단위",
+        details: [
+          "특정 기능과 관련된 변수/함수를 묶어둔 파일",
+          "예: Python의 module.py"
+        ]
+      },
+      {
+        title: "라이브러리의 패키지",
+        mnemonic: null,
+        summary: "모듈을 구조화한 상위 단위",
+        details: [
+          "여러 모듈을 디렉터리 구조로 묶어둔 것",
+          "큰 기능 단위를 표현하는 계층 구조"
+        ]
+      }
+    ]
+  }
+];

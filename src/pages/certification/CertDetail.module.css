@@ -1,0 +1,34 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem;
+  border-radius: 10px;
+  background: var(--bg);
+}
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+  margin-bottom: 1rem;
+}
+.title {
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 10px;
+  color: var(--sub-primary);
+  background: inherit;
+}
+.mnemonic {
+  color: var(--primary);
+  font-weight: bold;
+}
+.summary {
+  padding: 2rem;
+  border-radius: 10px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+}

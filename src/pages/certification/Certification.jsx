@@ -10,38 +10,38 @@ export default function Certification() {
       <section>
           <h2>소프트웨어 설계</h2>
         <div className={styles.certification}>
-          <Link>요구사항 확인</Link>
-          <Link>화면 설계</Link>
-          <Link>인터페이스 구현</Link>
-          <Link>제품 소프트웨어 패키징</Link>
+          <Link to={"/certification/1"}>요구사항 확인</Link>
+          <Link to={"/certification/2"}>화면 설계</Link>
+          <Link to={"/certification/5"}>인터페이스 구현</Link>
+          <Link to={"/certification/12"}>제품 소프트웨어 패키징</Link>
         </div>
       </section>
        <section>
           <h2>소프트웨어 개발</h2>
         <div className={styles.certification}>
-          <Link>서버 프로그램 구현</Link>
+          <Link to={"/certification/8"}>서버 프로그램 구현</Link>
         </div>
       </section>
        <section>
           <h2>데이터베이스 구축</h2>
         <div className={styles.certification}>
-          <Link>데이터 입출력 구현</Link>
-          <Link>SQL 응용</Link>
+          <Link to={"/certification/3"}>데이터 입출력 구현</Link>
+          <Link to={"/certification/7"}>SQL 응용</Link>
         </div>
       </section>
        <section>
           <h2>프로그래밍 언어 활용</h2>
         <div className={styles.certification}>
-          <Link>언어 활용</Link>
-          <Link>응용 SW 기초 기술 활용</Link>
+          <Link to={"/certification/6"}>언어 활용</Link>
+          <Link to={"/certification/11"}>응용 SW 기초 기술 활용</Link>
         </div>
       </section>
        <section>
           <h2>정보시스템 구축관리</h2>
         <div className={styles.certification}>
-          <Link>통합 구현</Link>
-          <Link>소프트웨어 개발 보안 구축</Link>
-          <Link>애플리케이션 테스트 관리</Link>
+          <Link to={"/certification/4"} >통합 구현</Link>
+          <Link to={"/certification/9"}>소프트웨어 개발 보안 구축</Link>
+          <Link to={"/certification/10"}>애플리케이션 테스트 관리</Link>
         </div>
       </section>
 

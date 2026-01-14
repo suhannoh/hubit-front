@@ -16,6 +16,7 @@ import Test from './pages/home/Test'
 import Community from './pages/chat/Community'
 import Certification from './pages/certification/Certification'
 import CertSite from './pages/certification/CertSite'
+import CertDetail from './pages/certification/CertDetail'
 
 function App() {
 
@@ -31,6 +32,7 @@ function App() {
             <Route path="/recruitment" element={<Recruitment />} />
             <Route path="/recruitment/:category" element={<ListRecruitment />} />
             <Route path="/certification" element={<Certification />} />
+            <Route path="/certification/:detailNumber" element={<CertDetail />} />
             <Route path="/certification/site" element={<CertSite />} />
             {/* 로그인 필요 영역 !  */}
             <Route element={<ProtectedRoute />} >

@@ -1,0 +1,288 @@
+export const cert4Data = [
+  {
+    section: "연계 요구사항 분석 및 문서",
+    items: [
+      {
+        title: "연계 요구사항 분석 시 참고 문서",
+        mnemonic: "코테응시",
+        summary: "연계 요구사항을 분석할 때 참고해야 하는 주요 문서",
+        details: [
+          "1. 코드 정의서",
+          "2. 테이블 정의서",
+          "3. 응용 프로그램 구성도 (화면 설계서, 사용자 인터페이스 정의서 등)",
+          "4. 시스템 구성도 (소프트웨어/하드웨어/네트워크 구성도 등)"
+        ]
+      },
+      {
+        title: "개체 정의서",
+        mnemonic: null,
+        summary: "개념 데이터 모델링 단계에서 도출된 개체의 정보를 명세한 문서",
+        details: [
+          "개념 데이터 모델링 단계의 산출물",
+          "각 개체의 속성, 설명, 식별자 등을 문서화"
+        ]
+      },
+      {
+        title: "인터페이스(연계) 명세서",
+        mnemonic: "인최크시데",
+        summary: "연계에 필요한 항목들을 상세히 명세한 문서",
+        details: [
+          "1. 인터페이스 ID",
+          "2. 최대 처리 횟수",
+          "3. 데이터 크기 (평균 / 최대)",
+          "4. 시스템 정보 (송신/수신 각각의 시스템명, 업무명, 연계방식 등)",
+          "5. 데이터 정보 (송신/수신 각각의 번호, 필드, 데이터 타입 등)"
+        ]
+      }
+    ]
+  },
+
+  {
+    section: "연계 시스템 구성 및 데이터 표준화",
+    items: [
+      {
+        title: "연계 시스템의 구성",
+        mnemonic: "송수중",
+        summary: "송신, 수신, 중계 시스템으로 구성되는 연계 구조",
+        details: [
+          "1. 송신 시스템 : 연계할 데이터를 송신하는 시스템",
+          "2. 수신 시스템 : 수신 데이터를 변환·저장·활용하는 시스템",
+          "3. 중계 시스템 : 송신-수신 시스템 사이에서 송수신 및 모니터링 수행"
+        ]
+      },
+      {
+        title: "연계 데이터 표준화",
+        mnemonic: "공개종",
+        summary: "인터페이스 데이터 구조를 공통/개별/종료부로 표준화",
+        details: [
+          "1. 인터페이스 데이터 공통부 : 모든 인터페이스에 공통으로 포함되는 표준 항목",
+          "2. 인터페이스 데이터 개별부 : 개별 인터페이스가 가지는 고유 데이터",
+          "3. 인터페이스 데이터 종료부 : 전송 데이터의 끝을 알려주는 영역"
+        ]
+      }
+    ]
+  },
+
+  {
+    section: "연계 매커니즘 - 직접 연계",
+    items: [
+      {
+        title: "연계 매커니즘 (직접 연계)",
+        mnemonic: null,
+        summary: "시스템 간 직접 연결하는 방식의 연계 매커니즘",
+        details: [
+          "장점 : 구현이 비교적 쉽고 개발 기간이 짧다.",
+          "단점 : 시스템 간 결합도가 높아 변경에 취약하다."
+        ]
+      },
+      {
+        title: "직접 연계 기술",
+        mnemonic: "링컨애제하",
+        summary: "DB Link, DB Connection, API, JDBC, 하이퍼링크 등 직접 연계 기술",
+        details: [
+          "1. DB Link",
+          "2. DB Connection",
+          "3. API",
+          "4. JDBC",
+          "5. 하이퍼링크"
+        ]
+      },
+      {
+        title: "DB Link",
+        mnemonic: null,
+        summary: "수신 시스템에서 DB 링크를 생성하고, 송신 시스템이 참조하는 방식",
+        details: [
+          "수신 시스템에서 DB Link를 생성",
+          "송신 시스템은 해당 링크를 통해 수신 DB에 직접 접근"
+        ]
+      },
+      {
+        title: "DB Connection",
+        mnemonic: null,
+        summary: "커넥션 풀을 이용한 DB 연결 방식",
+        details: [
+          "DB Connection Pool을 미리 생성하고, 풀 이름을 사용하여 연결",
+          "커넥션 풀 : DB와 연결된 커넥션을 미리 생성해 풀에 저장하고, 필요 시 꺼내 쓰고 반환하는 기법"
+        ]
+      },
+      {
+        title: "API",
+        mnemonic: null,
+        summary: "요청/응답 규격을 정의해 데이터를 주고받는 인터페이스",
+        details: [
+          "데이터를 주고받는 방식과 규격을 정의한 인터페이스",
+          "REST API, Open API 등 다양한 형태로 제공 가능"
+        ]
+      },
+      {
+        title: "JDBC",
+        mnemonic: null,
+        summary: "자바에서 DB에 접속하기 위한 표준 API",
+        details: [
+          "JDBC 드라이버를 이용해 송신 시스템의 DB와 연계",
+          "구성 : Java Application → JDBC API → JDBC Driver Manager → JDBC Driver"
+        ]
+      },
+      {
+        title: "하이퍼링크",
+        mnemonic: null,
+        summary: "현재 페이지에서 다른 위치나 페이지로 이동시키는 속성",
+        details: [
+          "웹 페이지 내 다른 부분 또는 다른 페이지로 이동",
+          "URL 기반 단순 연계 방식"
+        ]
+      }
+    ]
+  },
+
+  {
+    section: "연계 매커니즘 - 간접 연계",
+    items: [
+      {
+        title: "연계 매커니즘 (간접 연계)",
+        mnemonic: null,
+        summary: "중간 매체를 통해 간접적으로 연계하는 방식",
+        details: [
+          "장점 : 서로 다른 네트워크, 프로토콜 간 연계 가능",
+          "단점 : 성능 저하 가능, 개발 및 도입 비용이 높을 수 있음"
+        ]
+      },
+      {
+        title: "간접 연계 기술",
+        mnemonic: "이에아 이스비 소켓",
+        summary: "EAI, ESB, Socket 등 미들웨어 기반 연계 기술",
+        details: [
+          "1. EAI",
+          "2. ESB",
+          "3. Socket"
+        ]
+      },
+      {
+        title: "EAI (Enterprise Application Integration)",
+        mnemonic: null,
+        summary: "기업 내부 이기종 시스템 간 연계를 위한 솔루션",
+        details: [
+          "서로 다른 플랫폼 및 애플리케이션 간 연계를 돕는 솔루션",
+          "주로 기업 내부 시스템 통합에 사용"
+        ]
+      },
+      {
+        title: "EAI 구성요소",
+        mnemonic: null,
+        summary: "EAI 플랫폼, 어댑터, 브로커, 메시지 큐, 비즈니스 워크플로우",
+        details: [
+          "1. EAI 플랫폼 : 통합을 위한 기본 실행 환경",
+          "2. 어댑터 : 애플리케이션을 연결하는 데이터 입출력 도구 (EAI의 핵심 장치)",
+          "3. 브로커 : 데이터 전송 시 포맷과 코드를 변환",
+          "4. 메시지 큐 : 비동기 메시지를 주고받는 큐 기반 통신 기술",
+          "5. 비즈니스 워크플로우 : 정의된 프로세스 흐름에 따라 업무를 자동 처리"
+        ]
+      },
+      {
+        title: "EAI의 유형",
+        mnemonic: "포허메하",
+        summary: "Point-to-point, Hub & Spoke, Message Bus, Hybrid",
+        details: [
+          "1. Point-to-point : 가장 기초적인 1:1 단순 통합",
+          "2. Hub & Spoke : 허브 시스템을 통한 중앙 집중 방식",
+          "3. Message Bus : 미들웨어(버스)를 두고 애플리케이션을 연계",
+          "4. Hybrid : 그룹 내는 Hub & Spoke, 그룹 간은 Message Bus 방식 사용"
+        ]
+      },
+      {
+        title: "ESB (Enterprise Service Bus)",
+        mnemonic: null,
+        summary: "버스 구조로 느슨한 결합을 지원하는 통합 아키텍처",
+        details: [
+          "서로 다른 플랫폼 및 애플리케이션을 하나의 시스템처럼 통합 관리",
+          "미들웨어(버스)를 중심으로 서비스 간 통신을 지원",
+          "느슨한 결합(Loosely Coupled) 방식으로 통합"
+        ]
+      },
+      {
+        title: "EAI vs ESB",
+        mnemonic: null,
+        summary: "EAI는 기업 내부 통합, ESB는 서비스 중심 버스 구조 통합",
+        details: [
+          "EAI:",
+          "- 대상 : 기업 내부 이기종 시스템 통합",
+          "- 토폴로지 : 포허메하 (Point-to-point, Hub & Spoke, Message Bus, Hybrid)",
+          "- 핵심 기술 : 어댑터, 브로커, 메시지 큐",
+          "",
+          "ESB:",
+          "- 대상 : 기업 간 또는 서비스 중심 통합",
+          "- 토폴로지 : 버스 방식의 분산형 구조",
+          "- 핵심 기술 : 웹 서비스, 지능형 라우터, 포맷 변환, 개방형 표준"
+        ]
+      },
+      {
+        title: "Socket",
+        mnemonic: null,
+        summary: "프로세스 간 통신을 위한 접속점 (IP + Port)",
+        details: [
+          "프로세스 간 통신의 접속점",
+          "클라이언트 요청을 서버와 연결해주는 역할",
+          "IP 주소 + 포트 번호 조합으로 식별"
+        ]
+      }
+    ]
+  },
+
+  {
+    section: "연계 수행 절차 및 웹 서비스",
+    items: [
+      {
+        title: "연계 매커니즘 수행 절차",
+        mnemonic: null,
+        summary: "데이터 추출부터 DB 반영까지 연계 처리 순서",
+        details: [
+          "1. 연계 데이터 추출 및 생성",
+          "2. 코드 매핑 (데이터 변환)",
+          "3. 연계 테이블 또는 연계 파일 생성",
+          "4. 로그 기록",
+          "5. 연계 서버 또는 송수신 어댑터 처리",
+          "6. 전송",
+          "7. 수신된 데이터 DB에 반영"
+        ]
+      },
+      {
+        title: "웹 서비스 방식",
+        mnemonic: "솦 웹서디랭 우디",
+        summary: "SOAP, WSDL, UDDI로 구성되는 웹 서비스 구조",
+        details: [
+          "1. SOAP",
+          "2. WSDL",
+          "3. UDDI"
+        ]
+      },
+      {
+        title: "SOAP",
+        mnemonic: null,
+        summary: "HTTP/HTTPS 기반 XML 메시지 교환 프로토콜",
+        details: [
+          "XML 기반 메시지 교환을 위한 프로토콜",
+          "HTTP, HTTPS 등의 전송 프로토콜을 사용"
+        ]
+      },
+      {
+        title: "WSDL",
+        mnemonic: null,
+        summary: "웹 서비스 정보를 정의하는 XML 기반 기술 언어",
+        details: [
+          "Web Service Description Language",
+          "웹 서비스명, 위치, 인터페이스 등 정보를 XML 형식으로 기술"
+        ]
+      },
+      {
+        title: "UDDI",
+        mnemonic: null,
+        summary: "WSDL을 등록·검색하기 위한 공개 저장소",
+        details: [
+          "UDDI : Universal Description, Discovery and Integration",
+          "WSDL 기반 웹 서비스를 등록하고 검색하는 레지스트리",
+          "공개적으로 접근 가능한 저장소 역할"
+        ]
+      }
+    ]
+  }
+];
